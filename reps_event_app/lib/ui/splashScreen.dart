@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:reps_event_app/ui/homePage.dart';
+import 'package:reps_event_app/ui/events.dart';
 
 class SplashScreenPage extends StatefulWidget {
   @override
@@ -36,6 +36,6 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
   navigationToHomePage() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomePage()));
+        context, MaterialPageRoute(builder: (context) => Events()));
   }
 }
