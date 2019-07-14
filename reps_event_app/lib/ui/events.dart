@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:reps_event_app/api/reps_event_api.dart';
 
+
 class Events extends StatefulWidget {
   @override
   _EventsState createState() => _EventsState();
@@ -18,6 +19,7 @@ class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color(0xFFd73332),
         title: Text("Reps Events Mobile"),
@@ -92,7 +94,9 @@ class _EventsState extends State<Events> {
           } else {
             return Container(
               child: Center(
-                child: CircularProgressIndicator(),
+                child: Image.asset(
+                  "assets/img/preloader.gif",
+                ),
               ),
             );
           }
