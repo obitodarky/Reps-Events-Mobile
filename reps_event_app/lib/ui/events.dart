@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:reps_event_app/api/reps_event_api.dart';
 
-
 class Events extends StatefulWidget {
   @override
   _EventsState createState() => _EventsState();
@@ -9,10 +8,22 @@ class Events extends StatefulWidget {
 
 class _EventsState extends State<Events> {
   Future<dynamic> _future;
+  TextEditingController _searchController = TextEditingController();
+  String dateTime;
 
   @override
   void initState() {
+    dateTime = DateTime.now().toIso8601String().substring(0, 10);
     _future = fetchEvent();
+    _searchController.addListener(() {
+      final text = _searchController.text;
+      _searchController.value = _searchController.value.copyWith(
+        text: text,
+        selection:
+            TextSelection(baseOffset: text.length, extentOffset: text.length),
+        composing: TextRange.empty,
+      );
+    });
     super.initState();
   }
 
@@ -44,7 +55,9 @@ class _EventsState extends State<Events> {
           ],
         ),
       ),
-      body: getEventsList(),
+      body: Column(
+        children: <Widget>[getSearchBar(), Expanded(child: getEventsList())],
+      ),
     );
   }
 
@@ -59,9 +72,9 @@ class _EventsState extends State<Events> {
 
   fetchEvent() async {
     print("FETCH CALLED");
-    String dateTime = DateTime.now().toIso8601String().substring(0, 10);
     print(dateTime);
-    var response = await fetchEvents(dateTime);
+    var response =
+        await fetchEvents(date: dateTime, cityName: _searchController.text);
     return response['objects'];
   }
 
@@ -71,26 +84,21 @@ class _EventsState extends State<Events> {
         builder: (context, snapshot) {
           print(snapshot);
           if (snapshot.hasData) {
-            return ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  print(snapshot.data[index]['owner_name']);
-                  return Card(
-                      child: ListTile(
-                    title: Text(snapshot.data[index]['name'],maxLines: 1,overflow: TextOverflow.ellipsis,),
-                    subtitle: Text(snapshot.data[index]['local_start']
-                        .toString()
-                        .substring(0, 10)),
-                    trailing: IconButton(
-                        icon: Icon(Icons.info),
-                        onPressed: () {
-                          getDialogForDescription(snapshot.data[index]['name'],
-                          snapshot.data[index]['description']);
-                        }),
-                  ));
-                });
+            print(snapshot.data.isEmpty);
+            return snapshot.data.isEmpty
+                ? Container(
+                    child: Center(
+                      child: Image.asset('assets/img/no_results_found.gif'),
+                    ),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      print(snapshot.data[index]['owner_name']);
+                      return getEventTile(snapshot, index);
+                    });
           } else {
             return Container(
               child: Center(
@@ -101,6 +109,25 @@ class _EventsState extends State<Events> {
             );
           }
         });
+  }
+
+  Card getEventTile(AsyncSnapshot snapshot, int index) {
+    return Card(
+        child: ListTile(
+      title: Text(
+        snapshot.data[index]['name'],
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle:
+          Text(snapshot.data[index]['local_start'].toString().substring(0, 10)),
+      trailing: IconButton(
+          icon: Icon(Icons.info),
+          onPressed: () {
+            getDialogForDescription(snapshot.data[index]['name'],
+                snapshot.data[index]['description']);
+          }),
+    ));
   }
 
   getDialogForDescription(String eventName, String description) {
@@ -117,5 +144,37 @@ class _EventsState extends State<Events> {
             ],
           );
         });
+  }
+
+  getSearchBar() {
+    return Container(
+      margin: EdgeInsets.all(8),
+      child: TextField(
+        controller: _searchController,
+        onChanged: ((value) {
+          setState(() {
+            _future = null;
+            _searchController.text = value;
+            _future = fetchEvent();
+          });
+          print(_searchController.text);
+        }),
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.search,
+            color: Colors.red,
+          ),
+          hintText: "Search By City",
+          hintStyle: TextStyle(color: Colors.grey),
+          enabledBorder: const OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.red, width: 0.0),
+              borderRadius: BorderRadius.all(Radius.circular(5))),
+          focusedBorder: const OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.red, width: 0.0),
+              borderRadius: BorderRadius.all(Radius.circular(5))),
+          border: OutlineInputBorder(),
+        ),
+      ),
+    );
   }
 }
