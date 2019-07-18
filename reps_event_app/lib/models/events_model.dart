@@ -7,19 +7,22 @@ class EventsModel{
   final String event_url;
   final String start;
   final String venue;
+  final String local_start;
   
   EventsModel({
     this.name, 
     this.city,
     this.country, 
     this.description, 
-    this.end, 
-    this.event_url, 
+    this.end,
+    this.event_url,
+    this.local_start,
     this.start, 
     this.venue
   });
 
-  factory EventsModel.fromJson(Map<String, dynamic> parsedJson ){
+  factory EventsModel.fromJson(Map<String, dynamic> parsedJson){
+    print(parsedJson);
     return EventsModel(
       name: parsedJson['name'],
       city: parsedJson['city'],
@@ -28,8 +31,8 @@ class EventsModel{
       end: parsedJson['end'],
       event_url: parsedJson['event_url'],
       start: parsedJson['start'],
-      venue: parsedJson['venue']
-
+      venue: parsedJson['venue'],
+      local_start: parsedJson['local_start']
     );
   }
 
