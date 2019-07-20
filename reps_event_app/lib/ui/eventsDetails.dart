@@ -8,48 +8,138 @@ class EventsDetails extends StatelessWidget {
   final EventsModel events;
 
   EventsDetails({this.events});
- 
 
   bodyWidget(BuildContext context) => Container(
         child: Column(
           children: <Widget>[
             Flexible(
+              flex: 1,
               child: FlutterMap(
-      options: MapOptions(
-        center: LatLng(events.lat, events.lon),
-        zoom: 13.0,
-      ),
-      layers: [
-        new TileLayerOptions(
-          urlTemplate: "https://api.tiles.mapbox.com/v4/"
-              "{id}/{z}/{x}/{y}@2x.png?access_token=pk.eyJ1IjoiaGFyc2hpbDE3MTIiLCJhIjoiY2p5OXc3Z3JjMDgwejNubzZha3k4NXB3diJ9.ikSwHl-Zy36j034UFUNSIA",
-          additionalOptions: {
-            'accessToken': 'pk.eyJ1IjoiaGFyc2hpbDE3MTIiLCJhIjoiY2p5OXc3Z3JjMDgwejNubzZha3k4NXB3diJ9.ikSwHl-Zy36j034UFUNSIA',
-            'id': 'mapbox.streets',
-          },
-        ),
-        MarkerLayerOptions(
-          markers: [
-            Marker(
-              width: 50.0,
-              height: 50.0,
-              point: LatLng(events.lat, events.lon),
-              builder: (ctx) =>
-              Container(
-                child: SvgPicture.asset('assets/img/map-marker.svg', height: 0.5, width: 0.5, color: Colors.red,),
+                options: MapOptions(
+                  center: LatLng(events.lat, events.lon),
+                  zoom: 13.0,
+                ),
+                layers: [
+                  new TileLayerOptions(
+                    urlTemplate: "https://api.tiles.mapbox.com/v4/"
+                        "{id}/{z}/{x}/{y}@2x.png?access_token=pk.eyJ1IjoiaGFyc2hpbDE3MTIiLCJhIjoiY2p5OXc3Z3JjMDgwejNubzZha3k4NXB3diJ9.ikSwHl-Zy36j034UFUNSIA",
+                    additionalOptions: {
+                      'accessToken':
+                          'pk.eyJ1IjoiaGFyc2hpbDE3MTIiLCJhIjoiY2p5OXc3Z3JjMDgwejNubzZha3k4NXB3diJ9.ikSwHl-Zy36j034UFUNSIA',
+                      'id': 'mapbox.streets',
+                    },
+                  ),
+                  MarkerLayerOptions(
+                    markers: [
+                      Marker(
+                        width: 50.0,
+                        height: 50.0,
+                        point: LatLng(events.lat, events.lon),
+                        builder: (ctx) => Container(
+                          child: SvgPicture.asset(
+                            'assets/img/map-marker.svg',
+                            height: 0.5,
+                            width: 0.5,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ],
-    ),
-            ),
-            Text(events.description),
-            Text(events.local_start.toString().substring(0, 10)),
-            Text(events.end.toString().substring(0, 10)),
-            Text(events.venue),
-            Text(events.city),
-            Text(events.country)
+            Flexible(
+                flex: 2,
+                child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(
+                          events.description,
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Text.rich(TextSpan(children: <TextSpan>[
+                              TextSpan(
+                                text: 'Venue',
+                                style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    background: Paint()
+                                      ..color = Colors.red[50],
+                                      fontSize: 18),
+                              ),
+                              TextSpan(
+                                  text: " " +
+                                      events.venue,
+                                      style: TextStyle(fontSize: 18))
+                            ])),
+                            Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text.rich(TextSpan(children: <TextSpan>[
+                              TextSpan(
+                                text: 'City',
+                                style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    background: Paint()
+                                      ..color = Colors.red[50],
+                                      fontSize: 16),
+                              ),
+                              TextSpan(
+                                  text: " " +
+                                      events.city,
+                                      style: TextStyle(fontSize: 16))
+                            ])),
+                            Text.rich(TextSpan(children: <TextSpan>[
+                              TextSpan(
+                                text: 'Country',
+                                style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    background: Paint()
+                                      ..color = Colors.red[50]),
+                              ),
+                              TextSpan(
+                                  text: " " +
+                                      events.country)
+                            ])),
+                          ],
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text.rich(TextSpan(children: <TextSpan>[
+                              TextSpan(
+                                text: 'Start Date',
+                                style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    background: Paint()
+                                      ..color = Colors.red[50]),
+                              ),
+                              TextSpan(
+                                  text: " " +
+                                      events.local_start
+                                          .toString()
+                                          .substring(0, 10))
+                            ])),
+                            Text.rich(TextSpan(children: <TextSpan>[
+                              TextSpan(
+                                text: 'End Date',
+                                style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    background: Paint()
+                                      ..color = Colors.red[50]),
+                              ),
+                              TextSpan(
+                                  text: " " +
+                                      events.end.toString().substring(0, 10))
+                            ])),
+                          ],
+                        ),
+                      ],
+                    ))),
           ],
         ),
       );
@@ -57,46 +147,12 @@ class EventsDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFFd73332),
-        title: Text(events.name),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(5.0),
-        child: bodyWidget(context),
-      ), 
-      // bodyWidget(context),
-    );
+        appBar: AppBar(
+          backgroundColor: Color(0xFFd73332),
+          title: Text(events.name),
+        ),
+        body: bodyWidget(context)
+        // bodyWidget(context),
+        );
   }
-  // Widget build(BuildContext context) {
-  //   return FlutterMap(
-  //     options: MapOptions(
-  //       center: LatLng(events.lat, events.lon),
-  //       zoom: 13.0,
-  //     ),
-  //     layers: [
-  //       new TileLayerOptions(
-  //         urlTemplate: "https://api.tiles.mapbox.com/v4/"
-  //             "{id}/{z}/{x}/{y}@2x.png?access_token=pk.eyJ1IjoiaGFyc2hpbDE3MTIiLCJhIjoiY2p5OXc3Z3JjMDgwejNubzZha3k4NXB3diJ9.ikSwHl-Zy36j034UFUNSIA",
-  //         additionalOptions: {
-  //           'accessToken': 'pk.eyJ1IjoiaGFyc2hpbDE3MTIiLCJhIjoiY2p5OXc3Z3JjMDgwejNubzZha3k4NXB3diJ9.ikSwHl-Zy36j034UFUNSIA',
-  //           'id': 'mapbox.streets',
-  //         },
-  //       ),
-  //       MarkerLayerOptions(
-  //         markers: [
-  //           Marker(
-  //             width: 50.0,
-  //             height: 50.0,
-  //             point: LatLng(events.lat, events.lon),
-  //             builder: (ctx) =>
-  //             Container(
-  //               child: SvgPicture.asset('assets/img/map-marker.svg', height: 0.5, width: 0.5, color: Colors.red,),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ],
-  //   );
-  // }
 }
