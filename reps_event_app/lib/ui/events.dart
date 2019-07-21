@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:reps_event_app/models/events_model.dart';
 import 'package:reps_event_app/api/reps_event_api.dart';
+import 'package:reps_event_app/ui/eventsDetails.dart';
 
 class Events extends StatefulWidget {
   @override
@@ -120,7 +121,7 @@ class _EventsState extends State<Events> {
     return Card(
         child: ListTile(
           onTap: (){
-
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>EventsDetails(events: snapshot.data[index],)));
           },
       title: Text(
         snapshot.data[index].name,
