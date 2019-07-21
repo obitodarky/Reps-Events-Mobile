@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:reps_event_app/api/reps_event_api.dart';
+import 'package:reps_event_app/ui/about.dart';
 
 class Events extends StatefulWidget {
   @override
@@ -61,11 +62,13 @@ class _EventsState extends State<Events> {
     );
   }
 
-  getList({String listTitle}) {
+  getList({String listTitle} ) {
     return ListTile(
       title: Text(listTitle),
       onTap: () {
-        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => About()
+        ));
       },
     );
   }
