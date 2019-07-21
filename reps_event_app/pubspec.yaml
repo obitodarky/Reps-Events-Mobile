@@ -25,7 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_svg:
   http:
-
+  flutter_map: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

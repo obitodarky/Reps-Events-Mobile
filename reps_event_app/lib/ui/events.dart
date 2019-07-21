@@ -1,6 +1,11 @@
 import "package:flutter/material.dart";
+import 'package:reps_event_app/models/events_model.dart';
 import 'package:reps_event_app/api/reps_event_api.dart';
+<<<<<<< HEAD
 import 'package:reps_event_app/ui/about.dart';
+=======
+import 'package:reps_event_app/ui/eventsDetails.dart';
+>>>>>>> 7ac2de0a1b2add29f87f2f816eb0ec4be9a339cd
 
 class Events extends StatefulWidget {
   @override
@@ -8,7 +13,7 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
-  Future<dynamic> _future;
+  Future<List<EventsModel>> _future;
   TextEditingController _searchController = TextEditingController();
   String dateTime;
 
@@ -73,21 +78,25 @@ class _EventsState extends State<Events> {
     );
   }
 
-  fetchEvent() async {
+  Future<List<EventsModel>> fetchEvent() async {
     print("FETCH CALLED");
+    List<EventsModel> events = [];
     print(dateTime);
     var response =
-        await fetchEvents(date: dateTime, cityName: _searchController.text);
-    return response['objects'];
+        await fetchEvents(date: dateTime, cityName: _searchController.text).catchError((e){
+          print(e);
+        });
+    response['objects'].forEach((jsonObject){
+      events.add(EventsModel.fromJson(jsonObject));
+    });
+    return events;
   }
 
   getEventsList() {
-    return FutureBuilder(
+    return FutureBuilder<List<EventsModel>>(
         future: _future,
         builder: (context, snapshot) {
-          print(snapshot);
           if (snapshot.hasData) {
-            print(snapshot.data.isEmpty);
             return snapshot.data.isEmpty
                 ? Container(
                     child: Center(
@@ -96,10 +105,10 @@ class _EventsState extends State<Events> {
                   )
                 : ListView.builder(
                     shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      print(snapshot.data[index]['owner_name']);
+                    itemBuilder: (context, index) {;
                       return getEventTile(snapshot, index);
                     });
           } else {
@@ -117,18 +126,21 @@ class _EventsState extends State<Events> {
   Card getEventTile(AsyncSnapshot snapshot, int index) {
     return Card(
         child: ListTile(
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>EventsDetails(events: snapshot.data[index],)));
+          },
       title: Text(
-        snapshot.data[index]['name'],
+        snapshot.data[index].name,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
       subtitle:
-          Text(snapshot.data[index]['local_start'].toString().substring(0, 10)),
+          Text(snapshot.data[index].local_start.toString().substring(0, 10)),
       trailing: IconButton(
           icon: Icon(Icons.info),
           onPressed: () {
-            getDialogForDescription(snapshot.data[index]['name'],
-                snapshot.data[index]['description']);
+            getDialogForDescription(snapshot.data[index].name,
+                snapshot.data[index].description);
           }),
     ));
   }
