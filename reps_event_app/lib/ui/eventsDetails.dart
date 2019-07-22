@@ -57,7 +57,7 @@ class _EventsDetailsState extends State<EventsDetails> {
             ),
             Container(
                 child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
@@ -66,6 +66,7 @@ class _EventsDetailsState extends State<EventsDetails> {
                           textAlign: TextAlign.justify,
                           style: TextStyle(fontSize: 18),
                         ),
+                        SizedBox(height: 10,),
                         Text.rich(TextSpan(children: <TextSpan>[
                               TextSpan(
                                 text: 'Venue',
@@ -80,6 +81,7 @@ class _EventsDetailsState extends State<EventsDetails> {
                                       widget.events.venue,
                                       style: TextStyle(fontSize: 18))
                             ])),
+                            SizedBox(height: 10,),
                             Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
@@ -111,7 +113,7 @@ class _EventsDetailsState extends State<EventsDetails> {
                             ])),
                           ],
                         ),
-
+                        SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
