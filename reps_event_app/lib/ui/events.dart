@@ -1,11 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:reps_event_app/models/events_model.dart';
 import 'package:reps_event_app/api/reps_event_api.dart';
-<<<<<<< HEAD
-import 'package:reps_event_app/ui/about.dart';
-=======
 import 'package:reps_event_app/ui/eventsDetails.dart';
->>>>>>> 7ac2de0a1b2add29f87f2f816eb0ec4be9a339cd
+import 'package:reps_event_app/ui/about.dart';
 
 class Events extends StatefulWidget {
   @override
@@ -55,7 +52,7 @@ class _EventsState extends State<Events> {
                 ),
               ),
             ),
-            getList(listTitle: "About"),
+            getList(listTitle: "About", nav: About()),
             getList(listTitle: "Events"),
             getList(listTitle: "People")
           ],
@@ -67,12 +64,12 @@ class _EventsState extends State<Events> {
     );
   }
 
-  getList({String listTitle} ) {
+  getList({String listTitle, Object nav}  ) {
     return ListTile(
       title: Text(listTitle),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
-          builder: (context) => About()
+          builder: (context) => nav
         ));
       },
     );
