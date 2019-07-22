@@ -36,7 +36,8 @@ class _EventsState extends State<Events> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color(0xFFd73332),
-        title: Text("Reps Events Mobile"),
+        // title: Text("Reps Events Mobile"),
+        elevation: 0,
       ),
       drawer: Drawer(
         child: ListView(
@@ -80,10 +81,11 @@ class _EventsState extends State<Events> {
     List<EventsModel> events = [];
     print(dateTime);
     var response =
-        await fetchEvents(date: dateTime, cityName: _searchController.text).catchError((e){
-          print(e);
-        });
-    response['objects'].forEach((jsonObject){
+        await fetchEvents(date: dateTime, cityName: _searchController.text)
+            .catchError((e) {
+      print(e);
+    });
+    response['objects'].forEach((jsonObject) {
       events.add(EventsModel.fromJson(jsonObject));
     });
     return events;
@@ -105,7 +107,8 @@ class _EventsState extends State<Events> {
                     physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {;
+                    itemBuilder: (context, index) {
+                      ;
                       return getEventTile(snapshot, index);
                     });
           } else {
@@ -123,21 +126,27 @@ class _EventsState extends State<Events> {
   Card getEventTile(AsyncSnapshot snapshot, int index) {
     return Card(
         child: ListTile(
-          onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>EventsDetails(events: snapshot.data[index],)));
-          },
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => EventsDetails(
+                      events: snapshot.data[index],
+                    )));
+      },
       title: Text(
         snapshot.data[index].name,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
       ),
       subtitle:
           Text(snapshot.data[index].local_start.toString().substring(0, 10)),
       trailing: IconButton(
           icon: Icon(Icons.info),
           onPressed: () {
-            getDialogForDescription(snapshot.data[index].name,
-                snapshot.data[index].description);
+            getDialogForDescription(
+                snapshot.data[index].name, snapshot.data[index].description);
           }),
     ));
   }
@@ -159,34 +168,96 @@ class _EventsState extends State<Events> {
   }
 
   getSearchBar() {
-    return Container(
-      margin: EdgeInsets.all(8),
-      child: TextField(
-        controller: _searchController,
-        onChanged: ((value) {
-          setState(() {
-            _future = null;
-            _searchController.text = value;
-            _future = fetchEvent();
-          });
-          print(_searchController.text);
-        }),
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.search,
-            color: Colors.red,
-          ),
-          hintText: "Search By City",
-          hintStyle: TextStyle(color: Colors.grey),
-          enabledBorder: const OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.red, width: 0.0),
-              borderRadius: BorderRadius.all(Radius.circular(5))),
-          focusedBorder: const OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.red, width: 0.0),
-              borderRadius: BorderRadius.all(Radius.circular(5))),
-          border: OutlineInputBorder(),
+    return ClipPath(
+      clipper: CustomShapeClipper(),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [Color(0xFFd73332), Colors.redAccent],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter),
+        ),
+        height: 230,
+        // margin: EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Text(
+                'Events',
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.9),
+                    fontSize: 48,
+                    fontFamily: 'Zilla Slab',
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            // SizedBox(height: 16,),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Material(
+                elevation: 5,
+                borderRadius: BorderRadius.all(Radius.circular(32)),
+                child: TextField(
+                  controller: _searchController,
+                  onChanged: ((value) {
+                    setState(() {
+                      _future = null;
+                      _searchController.text = value;
+                      _future = fetchEvent();
+                    });
+                    print(_searchController.text);
+                  }),
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.red,
+                    ),
+                    hintText: "Search By City",
+                    hintStyle:
+                        TextStyle(color: Colors.grey, fontFamily: 'Zilla Slab'),
+                    enabledBorder: const OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 0.0),
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 0.0),
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
+}
+
+class CustomShapeClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final Path path = Path();
+    path.lineTo(0.0, size.height);
+
+    var firstEndPoint = Offset(size.width * .5, size.height - 30.0);
+    var firstControlpoint = Offset(size.width * 0.25, size.height - 50.0);
+    path.quadraticBezierTo(firstControlpoint.dx, firstControlpoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
+
+    var secondEndPoint = Offset(size.width, size.height - 80.0);
+    var secondControlPoint = Offset(size.width * .75, size.height - 10);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondEndPoint.dx, secondEndPoint.dy);
+
+    path.lineTo(size.width, 0.0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper oldClipper) => true;
 }

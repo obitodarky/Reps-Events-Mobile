@@ -68,6 +68,17 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+
+  fonts:
+    - family: Zilla Slab
+      fonts:
+        - asset: assets/fonts/ZillaSlab-Regular.ttf
+        - asset: assets/fonts/ZillaSlab-Medium.ttf
+          weight: 400
+        - asset: assets/fonts/ZillaSlab-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/ZillaSlab-Bold.ttf
+          weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

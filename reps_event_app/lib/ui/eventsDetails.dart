@@ -4,19 +4,25 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class EventsDetails extends StatelessWidget {
+class EventsDetails extends StatefulWidget {
   final EventsModel events;
 
   EventsDetails({this.events});
 
+  @override
+  _EventsDetailsState createState() => _EventsDetailsState();
+}
+
+class _EventsDetailsState extends State<EventsDetails> {
   bodyWidget(BuildContext context) => Container(
-        child: Column(
+        child: ListView(
+          scrollDirection: Axis.vertical,
           children: <Widget>[
-            Flexible(
-              flex: 1,
+            Container(
+              height: MediaQuery.of(context).size.height/2.75,
               child: FlutterMap(
                 options: MapOptions(
-                  center: LatLng(events.lat, events.lon),
+                  center: LatLng(widget.events.lat, widget.events.lon),
                   zoom: 13.0,
                 ),
                 layers: [
@@ -34,7 +40,7 @@ class EventsDetails extends StatelessWidget {
                       Marker(
                         width: 50.0,
                         height: 50.0,
-                        point: LatLng(events.lat, events.lon),
+                        point: LatLng(widget.events.lat, widget.events.lon),
                         builder: (ctx) => Container(
                           child: SvgPicture.asset(
                             'assets/img/map-marker.svg',
@@ -49,18 +55,18 @@ class EventsDetails extends StatelessWidget {
                 ],
               ),
             ),
-            Flexible(
-                flex: 2,
+            Container(
                 child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Text(
-                          events.description,
+                          widget.events.description,
                           textAlign: TextAlign.justify,
                           style: TextStyle(fontSize: 18),
                         ),
+                        SizedBox(height: 10,),
                         Text.rich(TextSpan(children: <TextSpan>[
                               TextSpan(
                                 text: 'Venue',
@@ -72,9 +78,10 @@ class EventsDetails extends StatelessWidget {
                               ),
                               TextSpan(
                                   text: " " +
-                                      events.venue,
+                                      widget.events.venue,
                                       style: TextStyle(fontSize: 18))
                             ])),
+                            SizedBox(height: 10,),
                             Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
@@ -89,7 +96,7 @@ class EventsDetails extends StatelessWidget {
                               ),
                               TextSpan(
                                   text: " " +
-                                      events.city,
+                                      widget.events.city,
                                       style: TextStyle(fontSize: 16))
                             ])),
                             Text.rich(TextSpan(children: <TextSpan>[
@@ -102,11 +109,11 @@ class EventsDetails extends StatelessWidget {
                               ),
                               TextSpan(
                                   text: " " +
-                                      events.country)
+                                      widget.events.country)
                             ])),
                           ],
                         ),
-
+                        SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
@@ -120,7 +127,7 @@ class EventsDetails extends StatelessWidget {
                               ),
                               TextSpan(
                                   text: " " +
-                                      events.local_start
+                                      widget.events.local_start
                                           .toString()
                                           .substring(0, 10))
                             ])),
@@ -134,7 +141,7 @@ class EventsDetails extends StatelessWidget {
                               ),
                               TextSpan(
                                   text: " " +
-                                      events.end.toString().substring(0, 10))
+                                      widget.events.end.toString().substring(0, 10))
                             ])),
                           ],
                         ),
@@ -149,7 +156,7 @@ class EventsDetails extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFFd73332),
-          title: Text(events.name),
+          title: Text(widget.events.name),
         ),
         body: bodyWidget(context)
         // bodyWidget(context),
