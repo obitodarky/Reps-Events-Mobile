@@ -199,7 +199,7 @@ packages:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.0"
+    version: "2.2.1"
   positioned_tap_detector:
     dependency: transitive
     description:
@@ -323,12 +323,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.5.0"
+    version: "3.4.1"
 sdks:
-<<<<<<< HEAD
   dart: ">=2.2.2 <3.0.0"
   flutter: ">=1.2.1 <1.5.9"
-=======
-  dart: ">=2.4.0 <3.0.0"
-  flutter: ">=1.5.9-pre.94 <2.0.0"
->>>>>>> c5cd1a46c901028b85479e347c9b3c9d7ac0377a
