@@ -7,7 +7,7 @@ class About extends StatefulWidget {
 
 class _AboutState extends State<About> {
   String dateTime;
-
+  String info=" The Mozilla Reps program aims to empower and support volunteer Mozillians who want to become official representatives of Mozilla in their region/locale";
 
 
   @override
@@ -19,34 +19,14 @@ class _AboutState extends State<About> {
         // title: Text("Reps Events Mobile"),
         elevation: 0,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.all(5.0),
-          children: <Widget>[
-            DrawerHeader(
-              child: Container(
-                alignment: Alignment.topLeft,
-                child: Image.asset(
-                  'assets/img/reps.jpg',
-                  width: 80,
-                  height: 80,
-                ),
-              ),
-            ),
-            getList(listTitle: "About"),
-            getList(listTitle: "Events"),
-            getList(listTitle: "People")
-          ],
-        ),
-      ),
+
       body: Column(
         children: <Widget>[getHead(),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-            'The Mozilla Reps program aims to empower and support volunteer Mozillians who want to become official representatives of Mozilla in their region/locale.'
-                'The program provides a framework and a specific set of tools to help Mozillians to organize and/or attend events, recruit and mentor new contributors, document and share activities, and support their local communities better. ',
-            style: TextStyle(
+            info,
+                style: TextStyle(
                 color: Colors.black.withOpacity(0.9),
                 fontSize: 28,
                 fontFamily: 'Zilla Slab',

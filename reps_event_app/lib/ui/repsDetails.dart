@@ -1,8 +1,5 @@
 import "package:flutter/material.dart";
 import 'package:reps_event_app/models/reps_model.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong/latlong.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class RepsDetails extends StatefulWidget {
   final RepsModel reps;
@@ -59,7 +56,7 @@ class _RepsDetailsState extends State<RepsDetails> {
                             fontSize: 18),
                       ),
                       TextSpan(
-                          text: "" +
+                          text: "Fullname" +
                               widget.reps.fullname,
                           style: TextStyle(fontSize: 18))
                     ])),

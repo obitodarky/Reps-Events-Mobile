@@ -105,7 +105,6 @@ class _EventsState extends State<Events> {
                     scrollDirection: Axis.vertical,
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
-                      ;
                       return getEventTile(snapshot, index);
                     });
           } else {

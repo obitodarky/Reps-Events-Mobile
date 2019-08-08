@@ -38,26 +38,7 @@ class _RepsState extends State<Reps> {
         // title: Text("Reps Events Mobile"),
         elevation: 0,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.all(5.0),
-          children: <Widget>[
-            DrawerHeader(
-              child: Container(
-                alignment: Alignment.topLeft,
-                child: Image.asset(
-                  'assets/img/reps.jpg',
-                  width: 80,
-                  height: 80,
-                ),
-              ),
-            ),
-            getList(listTitle: "About"),
-            getList(listTitle: "Events"),
-            getList(listTitle: "People")
-          ],
-        ),
-      ),
+
       body: Column(
         children: <Widget>[getSearchBar(), Expanded(child: getRepsList())],
       ),
@@ -78,7 +59,7 @@ class _RepsState extends State<Reps> {
     List<RepsModel> reps = [];
     print(dateTime);
     var response =
-    await fetchReps(date: dateTime, cityName: _searchController.text)
+    await fetchReps()
         .catchError((e) {
       print(e);
     });
@@ -137,14 +118,6 @@ class _RepsState extends State<Reps> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
           ),
-          subtitle:
-          Text(snapshot.data[index].city.toString()),
-          trailing: IconButton(
-              icon: Icon(Icons.info),
-              onPressed: () {
-                getDialogForDescription(
-                    snapshot.data[index].fullname, snapshot.data[index].fullname);
-              }),
         ));
   }
 
