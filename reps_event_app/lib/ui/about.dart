@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 
+
 class About extends StatefulWidget {
   @override
   _AboutState createState() => _AboutState();
@@ -85,11 +86,12 @@ class _AboutState extends State<About> {
             ),
             // SizedBox(height: 16,),
 
-          ],
+          ]
         ),
       ),
     );
   }
+
 }
 
 class CustomShapeClipper extends CustomClipper<Path> {
@@ -116,3 +118,5 @@ class CustomShapeClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper oldClipper) => true;
 }
+
+
