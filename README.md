@@ -1,12 +1,13 @@
 # Reps-Mobile
 
 <p align="center">
-  <a href="https://flutter.dev/">
-    <img alt="Flutter" src="https://flutter.dev/assets/flutter-lockup-4cb0ee072ab312e59784d9fbf4fb7ad42688a7fdaea1270ccf6bbf4f34b7e03f.svg" width="170" />
+  <a href="https://reps.mozilla.org/">
+    
+   <img alt="Mozilla Reps App Starter Guide" src="https://user-images.githubusercontent.com/47818179/62776975-acb13c00-bac9-11e9-9f65-f2bce9086f29.png" width="170" />
   </a>
 </p>
 <h1 align="center">
- Flutter Starter 
+ Mozilla Reps App Starter Guide
 </h1>
 
 Kick off your project with this boilerplate. This starter will help to install  the main flutter configuration files along with the brief introduction to Mozilla Reps mobile application.
@@ -18,6 +19,7 @@ Kick off your project with this boilerplate. This starter will help to install  
 ## 🚀 Quick start
 
 1.  **Install Flutter on your machine**
+
 
     install flutter by selecting the operating system on which you are installing Flutter:
   
