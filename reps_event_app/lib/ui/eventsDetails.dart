@@ -6,8 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class EventsDetails extends StatefulWidget {
   final EventsModel events;
-
-  EventsDetails({this.events});
+  static const String route = "event_details_page";
+  EventsDetails(this.events);
 
   @override
   _EventsDetailsState createState() => _EventsDetailsState();
@@ -46,7 +46,7 @@ class _EventsDetailsState extends State<EventsDetails> {
                             'assets/img/map-marker.svg',
                             height: 0.5,
                             width: 0.5,
-                            color: Colors.red,
+                            color: Theme.of(context).primaryColor,
                           ),
                         ),
                       ),

@@ -14,6 +14,8 @@ class _EventsState extends State<Events> {
   Future<List<EventsModel>> _future;
   TextEditingController _searchController = TextEditingController();
   String dateTime;
+  Color color;
+
 
   @override
   void initState() {
@@ -33,10 +35,10 @@ class _EventsState extends State<Events> {
 
   @override
   Widget build(BuildContext context) {
+    color = Theme.of(context).primaryColor;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFFd73332),
         // title: Text("Reps Events Mobile"),
         elevation: 0,
       ),
@@ -55,7 +57,6 @@ class _EventsState extends State<Events> {
               ),
             ),
             getList(listTitle: "About", nav: About()),
-            getList(listTitle: "Events"),
             getList(listTitle: "People")
           ],
         ),
@@ -132,12 +133,8 @@ class _EventsState extends State<Events> {
     return Card(
         child: ListTile(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => EventsDetails(
-                      events: snapshot.data[index],
-                    )));
+        Navigator.pushNamed(context, 'event_details_page',
+            arguments: snapshot.data[index]);
       },
       title: Text(
         snapshot.data[index].name,
@@ -191,15 +188,15 @@ class _EventsState extends State<Events> {
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.search,
-              color: Colors.red,
+              color: color,
             ),
             hintText: "Search By City",
             hintStyle: TextStyle(color: Colors.grey, fontFamily: 'Zilla Slab'),
-            enabledBorder: const OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.red, width: 0.0),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color:color, width: 0.0),
                 borderRadius: BorderRadius.all(Radius.circular(5))),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.red, width: 0.0),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color:color, width: 0.0),
                 borderRadius: BorderRadius.all(Radius.circular(5))),
             border: OutlineInputBorder(),
           ),
