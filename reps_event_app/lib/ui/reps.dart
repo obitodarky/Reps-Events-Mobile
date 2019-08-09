@@ -1,25 +1,21 @@
 import "package:flutter/material.dart";
-import 'package:reps_event_app/models/events_model.dart';
-import 'package:reps_event_app/api/reps_event_api.dart';
+import 'package:reps_event_app/models/reps_model.dart';
+import 'package:reps_event_app/api/reps_rep_api.dart';
 import 'package:reps_event_app/ui/customAppBar.dart';
-import 'package:reps_event_app/ui/eventsDetails.dart';
-import 'package:reps_event_app/ui/about.dart';
+import 'package:reps_event_app/ui/repsDetails.dart';
 
-class Events extends StatefulWidget {
+class Reps extends StatefulWidget {
   @override
-  _EventsState createState() => _EventsState();
+  _RepsState createState() => _RepsState();
 }
 
-class _EventsState extends State<Events> {
-  Future<List<EventsModel>> _future;
+class _RepsState extends State<Reps> {
+  Future<List<RepsModel>> _future;
   TextEditingController _searchController = TextEditingController();
-  String dateTime;
   Color color;
-
 
   @override
   void initState() {
-    dateTime = DateTime.now().toIso8601String().substring(0, 10);
     _future = fetchEvent();
     _searchController.addListener(() {
       final text = _searchController.text;
@@ -35,70 +31,46 @@ class _EventsState extends State<Events> {
 
   @override
   Widget build(BuildContext context) {
-    color = Theme.of(context).primaryColor;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        // title: Text("Reps Events Mobile"),
         elevation: 0,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.all(5.0),
-          children: <Widget>[
-            DrawerHeader(
-              child: Container(
-                alignment: Alignment.topLeft,
-                child: Image.asset(
-                  'assets/img/reps.jpg',
-                  width: 80,
-                  height: 80,
-                ),
-              ),
-            ),
-            getList(listTitle: "About", nav: 'about_page'),
-            getList(listTitle: "People",nav: 'reps_page')
-          ],
-        ),
       ),
       body: Column(
         children: <Widget>[
           CustomAppBar(
-            appBarTitle: "Events",
+            appBarTitle: "Reps",
             widget: getSearchBar(),
           ),
-          Expanded(child: getEventsList())
+          Expanded(child: getRepsList())
         ],
       ),
     );
   }
 
-  getList({String listTitle, String nav}) {
+  getList({String listTitle}) {
     return ListTile(
       title: Text(listTitle),
       onTap: () {
-        Navigator.pushNamed(context, nav);
+        Navigator.pop(context);
       },
     );
   }
 
-  Future<List<EventsModel>> fetchEvent() async {
+  Future<List<RepsModel>> fetchEvent() async {
     print("FETCH CALLED");
-    List<EventsModel> events = [];
-    print(dateTime);
-    var response =
-        await fetchEvents(date: dateTime, cityName: _searchController.text)
-            .catchError((e) {
+    List<RepsModel> reps = [];
+    var response = await fetchReps().catchError((e) {
       print(e);
     });
     response['objects'].forEach((jsonObject) {
-      events.add(EventsModel.fromJson(jsonObject));
+      reps.add(RepsModel.fromJson(jsonObject));
     });
-    return events;
+    return reps;
   }
 
-  getEventsList() {
-    return FutureBuilder<List<EventsModel>>(
+  getRepsList() {
+    return FutureBuilder<List<RepsModel>>(
         future: _future,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -114,6 +86,7 @@ class _EventsState extends State<Events> {
                     scrollDirection: Axis.vertical,
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
+                      ;
                       return getEventTile(snapshot, index);
                     });
           } else {
@@ -128,27 +101,32 @@ class _EventsState extends State<Events> {
         });
   }
 
-  Card getEventTile(AsyncSnapshot snapshot, int index) {
+  Card getEventTile(AsyncSnapshot<List<RepsModel>> snapshot, int index) {
     return Card(
         child: ListTile(
+      contentPadding: EdgeInsets.all(8.0),
+      leading: ClipRRect(
+          clipBehavior: Clip.antiAlias,
+          borderRadius: BorderRadius.circular(50.0),
+          child: Image.network(
+            snapshot.data[index].avatar_url,
+          )),
       onTap: () {
-        Navigator.pushNamed(context, 'event_details_page',
-            arguments: snapshot.data[index]);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => RepsDetails(
+                      reps: snapshot.data[index],
+                    )));
       },
       title: Text(
-        snapshot.data[index].name,
-        maxLines: 1,
+        snapshot.data[index].fullname,
+        maxLines: 5,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
       ),
-      subtitle:
-          Text(snapshot.data[index].local_start.toString().substring(0, 10)),
-      trailing: IconButton(
-          icon: Icon(Icons.info),
-          onPressed: () {
-            getDialogForDescription(
-                snapshot.data[index].name, snapshot.data[index].description);
-          }),
+      subtitle: Text(snapshot.data[index].country ?? "",
+          style: TextStyle(fontFamily: 'Zilla Slab')),
     ));
   }
 
@@ -169,6 +147,7 @@ class _EventsState extends State<Events> {
   }
 
   getSearchBar() {
+    color = Theme.of(context).primaryColor;
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Material(
@@ -189,13 +168,13 @@ class _EventsState extends State<Events> {
               Icons.search,
               color: color,
             ),
-            hintText: "Search By City",
+            hintText: "Search By Name",
             hintStyle: TextStyle(color: Colors.grey, fontFamily: 'Zilla Slab'),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color:color, width: 0.0),
+                borderSide: BorderSide(color: color, width: 0.0),
                 borderRadius: BorderRadius.all(Radius.circular(5))),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color:color, width: 0.0),
+                borderSide: BorderSide(color: color, width: 0.0),
                 borderRadius: BorderRadius.all(Radius.circular(5))),
             border: OutlineInputBorder(),
           ),

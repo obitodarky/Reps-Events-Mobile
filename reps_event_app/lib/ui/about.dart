@@ -1,24 +1,40 @@
 import "package:flutter/material.dart";
+import 'package:reps_event_app/ui/customAppBar.dart';
 
-class About extends StatelessWidget {
+class About extends StatefulWidget {
+  @override
+  _AboutState createState() => _AboutState();
+}
+
+class _AboutState extends State<About> {
+  String dateTime;
+  String info =
+      " The Mozilla Reps program aims to empower and support volunteer Mozillians who want to become official representatives of Mozilla in their region/locale";
+  double appBarSize;
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("About Reps"),
-        ),
-        body: Container(
-          margin: const EdgeInsets.all(20),
-          child: ListView(
-            children: <Widget>[
-              SizedBox(height: 20,),
-              Container(
-                child: Text(" The Mozilla Reps program aims to empower and support volunteer Mozillians who want to become official representatives of Mozilla in their region/locale.The program provides a framework and a specific set of tools to help Mozillians to organize and/or attend events, recruit and mentor new contributors, document and share activities, and support their local communities better. ", textScaleFactor: 1.5,),
-              )
-            ],
+    appBarSize = MediaQuery.of(context).size.height / 6.5;
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+         elevation: 0,
+      ),
+      body: Column(
+        children: <Widget>[
+          CustomAppBar(appBarTitle: "About", appBarSize: appBarSize),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              info,
+              style: TextStyle(
+                  color: Colors.black.withOpacity(0.9),
+                  fontSize: 28,
+                  fontFamily: 'Zilla Slab',
+                  ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
