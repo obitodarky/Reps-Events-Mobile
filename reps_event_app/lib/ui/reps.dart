@@ -1,16 +1,15 @@
 import "package:flutter/material.dart";
-import 'package:reps_event_app/models/events_model.dart';
-import 'package:reps_event_app/api/reps_event_api.dart';
-import 'package:reps_event_app/ui/eventsDetails.dart';
-import 'package:reps_event_app/ui/about.dart';
+import 'package:reps_event_app/models/reps_model.dart';
+import 'package:reps_event_app/api/reps_rep_api.dart';
+import 'package:reps_event_app/ui/repsDetails.dart';
 
-class Events extends StatefulWidget {
+class Reps extends StatefulWidget {
   @override
-  _EventsState createState() => _EventsState();
+  _RepsState createState() => _RepsState();
 }
 
-class _EventsState extends State<Events> {
-  Future<List<EventsModel>> _future;
+class _RepsState extends State<Reps> {
+  Future<List<RepsModel>> _future;
   TextEditingController _searchController = TextEditingController();
   String dateTime;
 
@@ -23,7 +22,7 @@ class _EventsState extends State<Events> {
       _searchController.value = _searchController.value.copyWith(
         text: text,
         selection:
-            TextSelection(baseOffset: text.length, extentOffset: text.length),
+        TextSelection(baseOffset: text.length, extentOffset: text.length),
         composing: TextRange.empty,
       );
     });
@@ -39,77 +38,57 @@ class _EventsState extends State<Events> {
         // title: Text("Reps Events Mobile"),
         elevation: 0,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.all(5.0),
-          children: <Widget>[
-            DrawerHeader(
-              child: Container(
-                alignment: Alignment.topLeft,
-                child: Image.asset(
-                  'assets/img/reps.jpg',
-                  width: 80,
-                  height: 80,
-                ),
-              ),
-            ),
-            getList(listTitle: "About", nav: About()),
-            getList(listTitle: "Events"),
-            getList(listTitle: "People")
-          ],
-        ),
-      ),
+
       body: Column(
-        children: <Widget>[getSearchBar(), Expanded(child: getEventsList())],
+        children: <Widget>[getSearchBar(), Expanded(child: getRepsList())],
       ),
     );
   }
 
-  getList({String listTitle, Object nav}  ) {
+  getList({String listTitle}) {
     return ListTile(
       title: Text(listTitle),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) => nav
-        ));
+        Navigator.pop(context);
       },
     );
   }
 
-  Future<List<EventsModel>> fetchEvent() async {
+  Future<List<RepsModel>> fetchEvent() async {
     print("FETCH CALLED");
-    List<EventsModel> events = [];
+    List<RepsModel> reps = [];
     print(dateTime);
     var response =
-        await fetchEvents(date: dateTime, cityName: _searchController.text)
-            .catchError((e) {
+    await fetchReps()
+        .catchError((e) {
       print(e);
     });
     response['objects'].forEach((jsonObject) {
-      events.add(EventsModel.fromJson(jsonObject));
+      reps.add(RepsModel.fromJson(jsonObject));
     });
-    return events;
+    return reps;
   }
 
-  getEventsList() {
-    return FutureBuilder<List<EventsModel>>(
+  getRepsList() {
+    return FutureBuilder<List<RepsModel>>(
         future: _future,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return snapshot.data.isEmpty
                 ? Container(
-                    child: Center(
-                      child: Image.asset('assets/img/no_results_found.gif'),
-                    ),
-                  )
+              child: Center(
+                child: Image.asset('assets/img/no_results_found.gif'),
+              ),
+            )
                 : ListView.builder(
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return getEventTile(snapshot, index);
-                    });
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  ;
+                  return getEventTile(snapshot, index);
+                });
           } else {
             return Container(
               child: Center(
@@ -125,29 +104,21 @@ class _EventsState extends State<Events> {
   Card getEventTile(AsyncSnapshot snapshot, int index) {
     return Card(
         child: ListTile(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => EventsDetails(
-                      events: snapshot.data[index],
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => RepsDetails(
+                      reps: snapshot.data[index],
                     )));
-      },
-      title: Text(
-        snapshot.data[index].name,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
-      ),
-      subtitle:
-          Text(snapshot.data[index].local_start.toString().substring(0, 10)),
-      trailing: IconButton(
-          icon: Icon(Icons.info),
-          onPressed: () {
-            getDialogForDescription(
-                snapshot.data[index].name, snapshot.data[index].description);
-          }),
-    ));
+          },
+          title: Text(
+            snapshot.data[index].fullname,
+            maxLines: 5,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
+          ),
+        ));
   }
 
   getDialogForDescription(String eventName, String description) {
@@ -184,7 +155,7 @@ class _EventsState extends State<Events> {
             Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Text(
-                'Events',
+                'Reps',
                 style: TextStyle(
                     color: Colors.white.withOpacity(0.9),
                     fontSize: 48,
@@ -213,16 +184,16 @@ class _EventsState extends State<Events> {
                       Icons.search,
                       color: Colors.red,
                     ),
-                    hintText: "Search By City",
+                    hintText: "Search By Name",
                     hintStyle:
-                        TextStyle(color: Colors.grey, fontFamily: 'Zilla Slab'),
+                    TextStyle(color: Colors.grey, fontFamily: 'Zilla Slab'),
                     enabledBorder: const OutlineInputBorder(
                         borderSide:
-                            const BorderSide(color: Colors.red, width: 0.0),
+                        const BorderSide(color: Colors.red, width: 0.0),
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     focusedBorder: const OutlineInputBorder(
                         borderSide:
-                            const BorderSide(color: Colors.red, width: 0.0),
+                        const BorderSide(color: Colors.red, width: 0.0),
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     border: OutlineInputBorder(),
                   ),
