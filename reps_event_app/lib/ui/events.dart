@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:reps_event_app/models/events_model.dart';
 import 'package:reps_event_app/api/reps_event_api.dart';
+import 'package:reps_event_app/ui/customAppBar.dart';
 import 'package:reps_event_app/ui/eventsDetails.dart';
 import 'package:reps_event_app/ui/about.dart';
 
@@ -13,6 +14,8 @@ class _EventsState extends State<Events> {
   Future<List<EventsModel>> _future;
   TextEditingController _searchController = TextEditingController();
   String dateTime;
+  Color color;
+
 
   @override
   void initState() {
@@ -32,10 +35,10 @@ class _EventsState extends State<Events> {
 
   @override
   Widget build(BuildContext context) {
+    color = Theme.of(context).primaryColor;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFFd73332),
         // title: Text("Reps Events Mobile"),
         elevation: 0,
       ),
@@ -54,24 +57,27 @@ class _EventsState extends State<Events> {
               ),
             ),
             getList(listTitle: "About", nav: About()),
-            getList(listTitle: "Events"),
             getList(listTitle: "People")
           ],
         ),
       ),
       body: Column(
-        children: <Widget>[getSearchBar(), Expanded(child: getEventsList())],
+        children: <Widget>[
+          CustomAppBar(
+            appBarTitle: "Events",
+            widget: getSearchBar(),
+          ),
+          Expanded(child: getEventsList())
+        ],
       ),
     );
   }
 
-  getList({String listTitle, Object nav}  ) {
+  getList({String listTitle, Object nav}) {
     return ListTile(
       title: Text(listTitle),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) => nav
-        ));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => nav));
       },
     );
   }
@@ -126,12 +132,8 @@ class _EventsState extends State<Events> {
     return Card(
         child: ListTile(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => EventsDetails(
-                      events: snapshot.data[index],
-                    )));
+        Navigator.pushNamed(context, 'event_details_page',
+            arguments: snapshot.data[index]);
       },
       title: Text(
         snapshot.data[index].name,
@@ -167,96 +169,38 @@ class _EventsState extends State<Events> {
   }
 
   getSearchBar() {
-    return ClipPath(
-      clipper: CustomShapeClipper(),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Color(0xFFd73332), Colors.redAccent],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter),
-        ),
-        height: 230,
-        // margin: EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0),
-              child: Text(
-                'Events',
-                style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
-                    fontSize: 48,
-                    fontFamily: 'Zilla Slab',
-                    fontWeight: FontWeight.bold),
-              ),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Material(
+        elevation: 5,
+        borderRadius: BorderRadius.all(Radius.circular(32)),
+        child: TextField(
+          controller: _searchController,
+          onChanged: ((value) {
+            setState(() {
+              _future = null;
+              _searchController.text = value;
+              _future = fetchEvent();
+            });
+            print(_searchController.text);
+          }),
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.search,
+              color: color,
             ),
-            // SizedBox(height: 16,),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Material(
-                elevation: 5,
-                borderRadius: BorderRadius.all(Radius.circular(32)),
-                child: TextField(
-                  controller: _searchController,
-                  onChanged: ((value) {
-                    setState(() {
-                      _future = null;
-                      _searchController.text = value;
-                      _future = fetchEvent();
-                    });
-                    print(_searchController.text);
-                  }),
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Colors.red,
-                    ),
-                    hintText: "Search By City",
-                    hintStyle:
-                        TextStyle(color: Colors.grey, fontFamily: 'Zilla Slab'),
-                    enabledBorder: const OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.red, width: 0.0),
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
-                    focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.red, width: 0.0),
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ),
-            ),
-          ],
+            hintText: "Search By City",
+            hintStyle: TextStyle(color: Colors.grey, fontFamily: 'Zilla Slab'),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color:color, width: 0.0),
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color:color, width: 0.0),
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            border: OutlineInputBorder(),
+          ),
         ),
       ),
     );
   }
-}
-
-class CustomShapeClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final Path path = Path();
-    path.lineTo(0.0, size.height);
-
-    var firstEndPoint = Offset(size.width * .5, size.height - 30.0);
-    var firstControlpoint = Offset(size.width * 0.25, size.height - 50.0);
-    path.quadraticBezierTo(firstControlpoint.dx, firstControlpoint.dy,
-        firstEndPoint.dx, firstEndPoint.dy);
-
-    var secondEndPoint = Offset(size.width, size.height - 80.0);
-    var secondControlPoint = Offset(size.width * .75, size.height - 10);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-        secondEndPoint.dx, secondEndPoint.dy);
-
-    path.lineTo(size.width, 0.0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper oldClipper) => true;
 }
