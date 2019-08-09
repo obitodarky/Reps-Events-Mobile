@@ -56,8 +56,8 @@ class _EventsState extends State<Events> {
                 ),
               ),
             ),
-            getList(listTitle: "About", nav: About()),
-            getList(listTitle: "People")
+            getList(listTitle: "About", nav: 'about_page'),
+            getList(listTitle: "People",nav: 'reps_page')
           ],
         ),
       ),
@@ -73,11 +73,11 @@ class _EventsState extends State<Events> {
     );
   }
 
-  getList({String listTitle, Object nav}) {
+  getList({String listTitle, String nav}) {
     return ListTile(
       title: Text(listTitle),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => nav));
+        Navigator.pushNamed(context, nav);
       },
     );
   }

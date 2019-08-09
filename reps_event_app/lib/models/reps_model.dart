@@ -19,9 +19,9 @@ class RepsModel{
     print(parsedJson);
     return RepsModel(
         fullname: parsedJson['fullname'],
-        city: parsedJson['city'],
-        country: parsedJson['country'],
-        avatar_url: parsedJson['avatar_url'],
+        city: parsedJson['profile']['city'],
+        country: parsedJson['profile']['country'],
+        avatar_url: parsedJson['profile']['avatar_url'],
         display_name: parsedJson['display_name'],
     );
   }

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<dynamic> fetchReps({String date,String cityName}) async {
+Future<dynamic> fetchReps() async {
   var _headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",

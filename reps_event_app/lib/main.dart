@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:reps_event_app/ui/about.dart';
 import 'package:reps_event_app/ui/events.dart';
 import 'package:reps_event_app/ui/eventsDetails.dart';
+import 'package:reps_event_app/ui/reps.dart';
 import 'package:reps_event_app/ui/splashScreen.dart';
 
 
@@ -13,6 +15,8 @@ class MyApp extends StatelessWidget {
       routes:{
         "events_page":(context)=>Events(),
         EventsDetails.route:(context)=>EventsDetails(ModalRoute.of(context).settings.arguments),
+        "reps_page":(context)=>Reps(),
+        "about_page":(context)=>About(),
       },
       theme: ThemeData(
         primaryColor: Color(0xFFd73332),

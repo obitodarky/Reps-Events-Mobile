@@ -12,69 +12,45 @@ class RepsDetails extends StatefulWidget {
 
 class _RepsDetailsState extends State<RepsDetails> {
   bodyWidget(BuildContext context) => Container(
-    child: ListView(
-      scrollDirection: Axis.vertical,
-      children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height/2.75,
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                ClipRRect(
+                    clipBehavior: Clip.antiAlias,
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: Image.network(widget.reps.avatar_url, scale: 0.8)),
+                Container(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Name",
+                          style: TextStyle(color: Colors.grey, fontSize: 16)),
+                      SizedBox(height: 8.0),
+                      Text(
+                        widget.reps.fullname,
+                        style: TextStyle(fontSize: 24),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            )
+          ],
         ),
-        Container(
-            child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text(
-                      widget.reps.fullname,
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    SizedBox(height: 10,),
-                    Text.rich(TextSpan(children: <TextSpan>[
-                      TextSpan(
-                        text: 'City',
-                        style: TextStyle(
-                            fontStyle: FontStyle.italic,
-                            background: Paint()
-                              ..color = Colors.red[50],
-                            fontSize: 18),
-                      ),
-                      TextSpan(
-                          text: "" +
-                              widget.reps.fullname,
-                          style: TextStyle(fontSize: 18))
-                    ])),
-
-                    SizedBox(height: 10,),
-                    Text.rich(TextSpan(children: <TextSpan>[
-                      TextSpan(
-                        text: 'City',
-                        style: TextStyle(
-                            fontStyle: FontStyle.italic,
-                            background: Paint()
-                              ..color = Colors.red[50],
-                            fontSize: 18),
-                      ),
-                      TextSpan(
-                          text: "Fullname" +
-                              widget.reps.fullname,
-                          style: TextStyle(fontSize: 18))
-                    ])),
-                  ],
-                ))),
-      ],
-    ),
-  );
+      );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFFd73332),
-          title: Text(widget.reps.fullname),
+          title: Text("Rep Details"),
         ),
         body: bodyWidget(context)
-      // bodyWidget(context),
-    );
+        // bodyWidget(context),
+        );
   }
 }

@@ -5,8 +5,9 @@ class CustomAppBar extends StatefulWidget {
 
   final String appBarTitle;
   final Widget widget;
+  final double appBarSize;
 
-  const CustomAppBar({Key key, this.appBarTitle,this.widget}) : super(key: key);
+  const CustomAppBar({Key key, this.appBarTitle,this.widget, this.appBarSize}) : super(key: key);
 
   @override
   _CustomAppBarState createState() => _CustomAppBarState();
@@ -20,11 +21,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [Color(0xFFd73332), Colors.redAccent],
+              colors: [Theme.of(context).primaryColor, Colors.redAccent],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter),
         ),
-        height: MediaQuery
+        height: widget.appBarSize??MediaQuery
             .of(context)
             .size
             .height / 3.4,

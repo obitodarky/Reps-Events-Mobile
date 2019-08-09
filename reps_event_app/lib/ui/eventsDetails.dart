@@ -155,7 +155,6 @@ class _EventsDetailsState extends State<EventsDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFFd73332),
           title: Text(widget.events.name),
         ),
         body: bodyWidget(context)
