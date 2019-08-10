@@ -16,9 +16,8 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     appBarSize = MediaQuery.of(context).size.height / 6.5;
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-         elevation: 0,
+        elevation: 0,
       ),
       body: Column(
         children: <Widget>[
@@ -28,10 +27,9 @@ class _AboutState extends State<About> {
             child: Text(
               info,
               style: TextStyle(
-                  color: Colors.black.withOpacity(0.9),
-                  fontSize: 28,
-                  fontFamily: 'Zilla Slab',
-                  ),
+                fontSize: 28,
+                fontFamily: 'Zilla Slab',
+              ),
             ),
           ),
         ],

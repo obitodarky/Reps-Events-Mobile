@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 import 'package:reps_event_app/models/reps_model.dart';
 import 'package:reps_event_app/api/reps_rep_api.dart';
+import 'package:reps_event_app/models/themeMode.dart';
 import 'package:reps_event_app/ui/customAppBar.dart';
 
 class Reps extends StatefulWidget {
@@ -12,6 +14,7 @@ class _RepsState extends State<Reps> {
   Future<List<RepsModel>> _future;
   TextEditingController _searchController = TextEditingController();
   Color color;
+  AppTheme appTheme;
 
   @override
   void initState() {
@@ -30,8 +33,8 @@ class _RepsState extends State<Reps> {
 
   @override
   Widget build(BuildContext context) {
+    appTheme = Provider.of<AppTheme>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
       ),
@@ -46,7 +49,6 @@ class _RepsState extends State<Reps> {
       ),
     );
   }
-
 
   Future<List<RepsModel>> fetchRepsList() async {
     print("FETCH CALLED");
@@ -93,28 +95,63 @@ class _RepsState extends State<Reps> {
   }
 
   getRepsTile(AsyncSnapshot<List<RepsModel>> snapshot, int index) {
-    return snapshot.data[index].fullname.contains(RegExp(_searchController.text,caseSensitive: false))?Card(
-        child: ListTile(
-      contentPadding: EdgeInsets.all(8.0),
-      leading: ClipRRect(
-          clipBehavior: Clip.antiAlias,
-          borderRadius: BorderRadius.circular(50.0),
-          child: Image.network(
-            snapshot.data[index].avatar_url,
-          )),
-      onTap: () {
-        Navigator.pushNamed(
-            context,'rep_details',arguments: snapshot.data[index]);
-      },
-      title: Text(
-        snapshot.data[index].fullname,
-        maxLines: 5,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
-      ),
-      subtitle: Text(snapshot.data[index].country ?? "",
-          style: TextStyle(fontFamily: 'Zilla Slab')),
-    )):Container();
+    return snapshot.data[index].fullname
+            .contains(RegExp(_searchController.text, caseSensitive: false))
+        ? appTheme.getTheme()
+            ? Container(
+                decoration: BoxDecoration(boxShadow: [
+                  BoxShadow(
+                    color: Color(0xFF212121),
+                  )
+                ]),
+                child: Card(
+                    color: Color(0xFF30302f),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.all(8.0),
+                      leading: ClipRRect(
+                          clipBehavior: Clip.antiAlias,
+                          borderRadius: BorderRadius.circular(50.0),
+                          child: Image.network(
+                            snapshot.data[index].avatar_url,
+                          )),
+                      onTap: () {
+                        Navigator.pushNamed(context, 'rep_details',
+                            arguments: snapshot.data[index]);
+                      },
+                      title: Text(
+                        snapshot.data[index].fullname,
+                        maxLines: 5,
+                        overflow: TextOverflow.ellipsis,
+                        style:
+                            TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
+                      ),
+                      subtitle: Text(snapshot.data[index].country ?? "",
+                          style: TextStyle(fontFamily: 'Zilla Slab')),
+                    )),
+              )
+            : Card(
+                child: ListTile(
+                contentPadding: EdgeInsets.all(8.0),
+                leading: ClipRRect(
+                    clipBehavior: Clip.antiAlias,
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: Image.network(
+                      snapshot.data[index].avatar_url,
+                    )),
+                onTap: () {
+                  Navigator.pushNamed(context, 'rep_details',
+                      arguments: snapshot.data[index]);
+                },
+                title: Text(
+                  snapshot.data[index].fullname,
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
+                ),
+                subtitle: Text(snapshot.data[index].country ?? "",
+                    style: TextStyle(fontFamily: 'Zilla Slab')),
+              ))
+        : Container();
   }
 
   getDialogForDescription(String eventName, String description) {
