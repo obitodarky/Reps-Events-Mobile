@@ -78,7 +78,7 @@ class _RepsState extends State<Reps> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       ;
-                      return getEventTile(snapshot, index);
+                      return getRepsTile(snapshot, index);
                     });
           } else {
             return Container(
@@ -92,8 +92,8 @@ class _RepsState extends State<Reps> {
         });
   }
 
-  Card getEventTile(AsyncSnapshot<List<RepsModel>> snapshot, int index) {
-    return Card(
+  getRepsTile(AsyncSnapshot<List<RepsModel>> snapshot, int index) {
+    return snapshot.data[index].fullname.contains(RegExp(_searchController.text))?Card(
         child: ListTile(
       contentPadding: EdgeInsets.all(8.0),
       leading: ClipRRect(
@@ -114,7 +114,7 @@ class _RepsState extends State<Reps> {
       ),
       subtitle: Text(snapshot.data[index].country ?? "",
           style: TextStyle(fontFamily: 'Zilla Slab')),
-    ));
+    )):Container();
   }
 
   getDialogForDescription(String eventName, String description) {
@@ -144,9 +144,7 @@ class _RepsState extends State<Reps> {
           controller: _searchController,
           onChanged: ((value) {
             setState(() {
-              _future = null;
               _searchController.text = value;
-              _future = fetchRepsList();
             });
             print(_searchController.text);
           }),

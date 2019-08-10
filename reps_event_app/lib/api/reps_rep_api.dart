@@ -6,7 +6,7 @@ Future<dynamic> fetchReps() async {
     "Content-Type": "application/json",
     "Accept": "application/json",
   };
-  String uri = "https://reps.mozilla.org/api/v1/rep/";
+  String uri = "https://reps.mozilla.org/api/v1/rep/?offset=0&limit=0";
 
   http.Response response = await http.get(
       uri,
