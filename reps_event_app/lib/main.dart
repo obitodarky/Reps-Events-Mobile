@@ -3,6 +3,7 @@ import 'package:reps_event_app/ui/about.dart';
 import 'package:reps_event_app/ui/events.dart';
 import 'package:reps_event_app/ui/eventsDetails.dart';
 import 'package:reps_event_app/ui/reps.dart';
+import 'package:reps_event_app/ui/repsDetails.dart';
 import 'package:reps_event_app/ui/splashScreen.dart';
 
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
         "events_page":(context)=>Events(),
         EventsDetails.route:(context)=>EventsDetails(ModalRoute.of(context).settings.arguments),
         "reps_page":(context)=>Reps(),
+        RepsDetails.route:(context)=>RepsDetails(ModalRoute.of(context).settings.arguments),
         "about_page":(context)=>About(),
       },
       theme: ThemeData(

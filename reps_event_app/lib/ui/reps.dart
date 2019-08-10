@@ -2,7 +2,6 @@ import "package:flutter/material.dart";
 import 'package:reps_event_app/models/reps_model.dart';
 import 'package:reps_event_app/api/reps_rep_api.dart';
 import 'package:reps_event_app/ui/customAppBar.dart';
-import 'package:reps_event_app/ui/repsDetails.dart';
 
 class Reps extends StatefulWidget {
   @override
@@ -16,7 +15,7 @@ class _RepsState extends State<Reps> {
 
   @override
   void initState() {
-    _future = fetchEvent();
+    _future = fetchRepsList();
     _searchController.addListener(() {
       final text = _searchController.text;
       _searchController.value = _searchController.value.copyWith(
@@ -48,16 +47,8 @@ class _RepsState extends State<Reps> {
     );
   }
 
-  getList({String listTitle}) {
-    return ListTile(
-      title: Text(listTitle),
-      onTap: () {
-        Navigator.pop(context);
-      },
-    );
-  }
 
-  Future<List<RepsModel>> fetchEvent() async {
+  Future<List<RepsModel>> fetchRepsList() async {
     print("FETCH CALLED");
     List<RepsModel> reps = [];
     var response = await fetchReps().catchError((e) {
@@ -112,12 +103,8 @@ class _RepsState extends State<Reps> {
             snapshot.data[index].avatar_url,
           )),
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => RepsDetails(
-                      reps: snapshot.data[index],
-                    )));
+        Navigator.pushNamed(
+            context,'rep_details',arguments: snapshot.data[index]);
       },
       title: Text(
         snapshot.data[index].fullname,
@@ -159,7 +146,7 @@ class _RepsState extends State<Reps> {
             setState(() {
               _future = null;
               _searchController.text = value;
-              _future = fetchEvent();
+              _future = fetchRepsList();
             });
             print(_searchController.text);
           }),
