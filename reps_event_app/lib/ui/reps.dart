@@ -93,7 +93,7 @@ class _RepsState extends State<Reps> {
   }
 
   getRepsTile(AsyncSnapshot<List<RepsModel>> snapshot, int index) {
-    return snapshot.data[index].fullname.contains(RegExp(_searchController.text))?Card(
+    return snapshot.data[index].fullname.contains(RegExp(_searchController.text,caseSensitive: false))?Card(
         child: ListTile(
       contentPadding: EdgeInsets.all(8.0),
       leading: ClipRRect(

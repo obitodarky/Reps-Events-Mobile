@@ -129,7 +129,7 @@ class _EventsState extends State<Events> {
   }
 
    getEventTile(AsyncSnapshot<List<EventsModel>> snapshot, int index) {
-    return snapshot.data[index].city.contains(RegExp(_searchController.text))? Card(
+    return snapshot.data[index].city.contains(RegExp(_searchController.text,caseSensitive: false))? Card(
         child: ListTile(
       onTap: () {
         Navigator.pushNamed(context, 'event_details_page',
