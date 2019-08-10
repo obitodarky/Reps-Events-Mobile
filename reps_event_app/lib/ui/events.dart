@@ -128,8 +128,8 @@ class _EventsState extends State<Events> {
         });
   }
 
-  Card getEventTile(AsyncSnapshot snapshot, int index) {
-    return Card(
+   getEventTile(AsyncSnapshot<List<EventsModel>> snapshot, int index) {
+    return snapshot.data[index].city.contains(RegExp(_searchController.text))? Card(
         child: ListTile(
       onTap: () {
         Navigator.pushNamed(context, 'event_details_page',
@@ -149,7 +149,7 @@ class _EventsState extends State<Events> {
             getDialogForDescription(
                 snapshot.data[index].name, snapshot.data[index].description);
           }),
-    ));
+    )):Container();
   }
 
   getDialogForDescription(String eventName, String description) {
@@ -178,9 +178,7 @@ class _EventsState extends State<Events> {
           controller: _searchController,
           onChanged: ((value) {
             setState(() {
-              _future = null;
               _searchController.text = value;
-              _future = fetchEvent();
             });
             print(_searchController.text);
           }),

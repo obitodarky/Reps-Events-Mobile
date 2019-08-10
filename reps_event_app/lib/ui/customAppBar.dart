@@ -28,7 +28,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         height: widget.appBarSize??MediaQuery
             .of(context)
             .size
-            .height / 3.4,
+            .height / 3.0,
         // margin: EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

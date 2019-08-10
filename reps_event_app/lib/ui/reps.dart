@@ -2,7 +2,6 @@ import "package:flutter/material.dart";
 import 'package:reps_event_app/models/reps_model.dart';
 import 'package:reps_event_app/api/reps_rep_api.dart';
 import 'package:reps_event_app/ui/customAppBar.dart';
-import 'package:reps_event_app/ui/repsDetails.dart';
 
 class Reps extends StatefulWidget {
   @override
@@ -16,7 +15,7 @@ class _RepsState extends State<Reps> {
 
   @override
   void initState() {
-    _future = fetchEvent();
+    _future = fetchRepsList();
     _searchController.addListener(() {
       final text = _searchController.text;
       _searchController.value = _searchController.value.copyWith(
@@ -48,16 +47,8 @@ class _RepsState extends State<Reps> {
     );
   }
 
-  getList({String listTitle}) {
-    return ListTile(
-      title: Text(listTitle),
-      onTap: () {
-        Navigator.pop(context);
-      },
-    );
-  }
 
-  Future<List<RepsModel>> fetchEvent() async {
+  Future<List<RepsModel>> fetchRepsList() async {
     print("FETCH CALLED");
     List<RepsModel> reps = [];
     var response = await fetchReps().catchError((e) {
@@ -87,7 +78,7 @@ class _RepsState extends State<Reps> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       ;
-                      return getEventTile(snapshot, index);
+                      return getRepsTile(snapshot, index);
                     });
           } else {
             return Container(
@@ -101,8 +92,8 @@ class _RepsState extends State<Reps> {
         });
   }
 
-  Card getEventTile(AsyncSnapshot<List<RepsModel>> snapshot, int index) {
-    return Card(
+  getRepsTile(AsyncSnapshot<List<RepsModel>> snapshot, int index) {
+    return snapshot.data[index].fullname.contains(RegExp(_searchController.text))?Card(
         child: ListTile(
       contentPadding: EdgeInsets.all(8.0),
       leading: ClipRRect(
@@ -112,12 +103,8 @@ class _RepsState extends State<Reps> {
             snapshot.data[index].avatar_url,
           )),
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => RepsDetails(
-                      reps: snapshot.data[index],
-                    )));
+        Navigator.pushNamed(
+            context,'rep_details',arguments: snapshot.data[index]);
       },
       title: Text(
         snapshot.data[index].fullname,
@@ -127,7 +114,7 @@ class _RepsState extends State<Reps> {
       ),
       subtitle: Text(snapshot.data[index].country ?? "",
           style: TextStyle(fontFamily: 'Zilla Slab')),
-    ));
+    )):Container();
   }
 
   getDialogForDescription(String eventName, String description) {
@@ -157,9 +144,7 @@ class _RepsState extends State<Reps> {
           controller: _searchController,
           onChanged: ((value) {
             setState(() {
-              _future = null;
               _searchController.text = value;
-              _future = fetchEvent();
             });
             print(_searchController.text);
           }),
