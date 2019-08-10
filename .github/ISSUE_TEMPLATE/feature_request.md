@@ -6,15 +6,20 @@ labels: ''
 assignees: ''
 
 ---
+## Use case
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+<!--
+     Please tell us the problem you are running into that led to you wanting
+     a new feature.
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+     Is your feature request related to a problem? Please give a clear and
+     concise description of what the problem is.
+-->
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+## Proposal
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+<!--
+     Briefly but precisely describe the feature request.
+
+     Consider attaching images showing what you are imagining.
+-->
