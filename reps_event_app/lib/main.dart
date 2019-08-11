@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
   bool darkTheme;
   @override
   void initState() {
-    darkTheme = Utils.sharedPreferences.getBool('darkTheme')??false;
+    darkTheme = Utils.sharedPreferences.getBool(Utils.darkThemePref)??false;
     super.initState();
   }
   @override
@@ -43,13 +43,13 @@ class RepsApp extends StatelessWidget {
     AppTheme appTheme = Provider.of<AppTheme>(context);
     return MaterialApp(
       routes: {
-        "events_page": (context) => Events(),
+        Utils.events_page_route: (context) => Events(),
         EventsDetails.route: (context) =>
             EventsDetails(ModalRoute.of(context).settings.arguments),
-        "reps_page": (context) => Reps(),
+        Utils.reps_page_route: (context) => Reps(),
         RepsDetails.route: (context) =>
             RepsDetails(ModalRoute.of(context).settings.arguments),
-        "about_page": (context) => About(),
+        Utils.about_page_route: (context) => About(),
       },
       theme: ThemeData(
         primaryColor: Color(0xFFE53935),

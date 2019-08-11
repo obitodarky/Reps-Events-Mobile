@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:reps_event_app/ui/customAppBar.dart';
+import 'package:reps_event_app/utils.dart';
 
 class About extends StatefulWidget {
   @override
@@ -8,8 +9,6 @@ class About extends StatefulWidget {
 
 class _AboutState extends State<About> {
   String dateTime;
-  String info =
-      " The Mozilla Reps program aims to empower and support volunteer Mozillians who want to become official representatives of Mozilla in their region/locale";
   double appBarSize;
 
   @override
@@ -21,14 +20,14 @@ class _AboutState extends State<About> {
       ),
       body: Column(
         children: <Widget>[
-          CustomAppBar(appBarTitle: "About", appBarSize: appBarSize),
+          CustomAppBar(appBarTitle: Utils.about_page, appBarSize: appBarSize),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              info,
+              Utils.about_info,
               style: TextStyle(
                 fontSize: 28,
-                fontFamily: 'Zilla Slab',
+                fontFamily: Utils.zilla_slab,
               ),
             ),
           ),
