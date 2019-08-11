@@ -10,7 +10,7 @@
  Mozilla Reps App Starter Guide
 </h1>
 
-Kick off your project with this Startup Guide. This starter will help to install  the main flutter configuration files along with the brief introduction to Mozilla Reps mobile application.
+Here is the Startup Guide for the  Mozilla Reps App. This starter will help to install  the main flutter configuration files along with the brief introduction to Mozilla Reps mobile application.
 
 ## 📝 Description
 
@@ -26,18 +26,5 @@ Kick off your project with this Startup Guide. This starter will help to install
     [Flutter installation tutorial](https://flutter.dev/docs/get-started/install)
 
     
-2.  **Test drive**
 
-
-    This  describes how to create a new Flutter app from templates, run it, and experience “hot reload” after you make changes to the app.
-    
-     Windows:   https://flutter.dev/docs/get-started/test-drive?tab=androidstudio
-    
-    MacOS:  https://flutter.dev/docs/get-started/test-drive?tab=androidstudio
-    
-    Linux:     https://flutter.dev/docs/get-started/test-drive?tab=androidstudio
-    
-7.  **Learn more!**
-
-    Learn more about the Flutter framework from  [here](https://flutter.dev/docs/get-started/learn-more).
       
