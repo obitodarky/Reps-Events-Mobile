@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:reps_event_app/ui/events.dart';
+import 'package:reps_event_app/utils.dart';
 
 class SplashScreenPage extends StatefulWidget {
   @override
@@ -33,7 +33,7 @@ class _SplashScreenPageState extends State<SplashScreenPage>
       body: Container(
           margin: EdgeInsets.all(20),
           alignment: Alignment.center,
-          child: SvgPicture.asset('assets/img/reps_logo.svg',
+          child: SvgPicture.asset(Utils.reps_mozilla_logo,
               height: animation.value * 1.5,
               width: animation.value,
               semanticsLabel: 'Reps Logo')),
@@ -46,8 +46,7 @@ class _SplashScreenPageState extends State<SplashScreenPage>
   }
 
   navigationToHomePage() {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Events()));
+    Navigator.pushReplacementNamed(context, Utils.events_page_route);
   }
 
   @override
