@@ -4,6 +4,7 @@ import 'package:reps_event_app/models/events_model.dart';
 import 'package:reps_event_app/api/reps_event_api.dart';
 import 'package:reps_event_app/models/themeMode.dart';
 import 'package:reps_event_app/ui/customAppBar.dart';
+import 'package:reps_event_app/utils.dart';
 
 class Events extends StatefulWidget {
   @override
@@ -65,6 +66,7 @@ class _EventsState extends State<Events> {
               trailing: Switch(
                 value: appTheme.getTheme(),
                 onChanged: (value) {
+                  Utils.sharedPreferences.setBool('darkTheme', value);
                   appTheme.updateAppTheme(value);
                 },
                 activeColor: Theme.of(context).primaryColor,

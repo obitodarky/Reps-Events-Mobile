@@ -7,14 +7,31 @@ import 'package:reps_event_app/ui/eventsDetails.dart';
 import 'package:reps_event_app/ui/reps.dart';
 import 'package:reps_event_app/ui/repsDetails.dart';
 import 'package:reps_event_app/ui/splashScreen.dart';
+import 'package:reps_event_app/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(MyApp());
+Future<void> main()async{
 
-class MyApp extends StatelessWidget {
+  Utils.sharedPreferences = await SharedPreferences.getInstance();
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool darkTheme;
+  @override
+  void initState() {
+    darkTheme = Utils.sharedPreferences.getBool('darkTheme')??false;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AppTheme>(
-      builder: (_) => AppTheme(false),
+      builder: (_) => AppTheme(darkTheme),
       child: RepsApp(),
     );
   }
