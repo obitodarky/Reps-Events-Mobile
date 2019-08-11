@@ -4,6 +4,7 @@ import 'package:reps_event_app/models/events_model.dart';
 import 'package:reps_event_app/api/reps_event_api.dart';
 import 'package:reps_event_app/models/themeMode.dart';
 import 'package:reps_event_app/ui/customAppBar.dart';
+import 'package:reps_event_app/ui/eventsDetails.dart';
 import 'package:reps_event_app/utils.dart';
 
 class Events extends StatefulWidget {
@@ -53,20 +54,20 @@ class _EventsState extends State<Events> {
               child: Container(
                 alignment: Alignment.topLeft,
                 child: Image.asset(
-                  'assets/img/reps.jpg',
+                  Utils.reps_logo,
                   width: 80,
                   height: 80,
                 ),
               ),
             ),
-            getList(listTitle: "About", nav: 'about_page'),
-            getList(listTitle: "People", nav: 'reps_page'),
+            getList(listTitle: Utils.about_page, nav: Utils.about_page_route),
+            getList(listTitle: Utils.drawer_people_item, nav: Utils.reps_page_route),
             ListTile(
-              title: Text("Dark Mode"),
+              title: Text(Utils.dark_mode_option),
               trailing: Switch(
                 value: appTheme.getTheme(),
                 onChanged: (value) {
-                  Utils.sharedPreferences.setBool('darkTheme', value);
+                  Utils.sharedPreferences.setBool(Utils.darkThemePref, value);
                   appTheme.updateAppTheme(value);
                 },
                 activeColor: Theme.of(context).primaryColor,
@@ -80,7 +81,7 @@ class _EventsState extends State<Events> {
       body: Column(
         children: <Widget>[
           CustomAppBar(
-            appBarTitle: "Events",
+            appBarTitle: Utils.events_page,
             widget: getSearchBar(),
           ),
           Expanded(child: getEventsList())
@@ -121,7 +122,7 @@ class _EventsState extends State<Events> {
             return snapshot.data.isEmpty
                 ? Container(
                     child: Center(
-                      child: Image.asset('assets/img/no_results_found.gif'),
+                      child: Image.asset(Utils.no_results_gif),
                     ),
                   )
                 : ListView.builder(
@@ -136,7 +137,7 @@ class _EventsState extends State<Events> {
             return Container(
               child: Center(
                 child: Image.asset(
-                  "assets/img/preloader.gif",
+                  Utils.loading_gif
                 ),
               ),
             );
@@ -153,7 +154,7 @@ class _EventsState extends State<Events> {
                     color: Color(0xFF30302f),
                     child: ListTile(
                       onTap: () {
-                        Navigator.pushNamed(context, 'event_details_page',
+                        Navigator.pushNamed(context, EventsDetails.route,
                             arguments: snapshot.data[index]);
                       },
                       title: Text(
@@ -161,7 +162,7 @@ class _EventsState extends State<Events> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style:
-                            TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
+                            TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
                       ),
                       subtitle: Text(snapshot.data[index].local_start
                           .toString()
@@ -182,14 +183,14 @@ class _EventsState extends State<Events> {
             : Card(
                 child: ListTile(
                 onTap: () {
-                  Navigator.pushNamed(context, 'event_details_page',
+                  Navigator.pushNamed(context, EventsDetails.route,
                       arguments: snapshot.data[index]);
                 },
                 title: Text(
                   snapshot.data[index].name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
+                  style: TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
                 ),
                 subtitle: Text(snapshot.data[index].local_start
                     .toString()
@@ -239,8 +240,8 @@ class _EventsState extends State<Events> {
               Icons.search,
               color: color,
             ),
-            hintText: "Search By City",
-            hintStyle: TextStyle(color: Colors.grey, fontFamily: 'Zilla Slab'),
+            hintText: Utils.search_events_label,
+            hintStyle: TextStyle(color: Colors.grey, fontFamily:Utils.zilla_slab),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: color, width: 0.0),
                 borderRadius: BorderRadius.all(Radius.circular(5))),

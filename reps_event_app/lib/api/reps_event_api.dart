@@ -1,13 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:reps_event_app/utils.dart';
 
 Future<dynamic> fetchEvents({String date,String cityName}) async {
-  var _headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-  };
-  String uri = "https://reps.mozilla.org/api/v1/event/?offset=0&limit=0&start__gte=$date";
+  var _headers = Utils.api_headers;
+  String uri = "${Utils.events_api}$date";
   if(cityName.isNotEmpty){
     uri+="&city=$cityName";
   }

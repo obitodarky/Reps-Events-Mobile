@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:reps_event_app/models/reps_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reps_event_app/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RepsDetails extends StatefulWidget {
@@ -36,7 +37,7 @@ class _RepsDetailsState extends State<RepsDetails> {
 
             //******************************************************
 
-            getContent("Name", widget.reps.fullname),
+            getContent(Utils.name_label, widget.reps.fullname),
 
             //*******************************************************
 
@@ -44,7 +45,7 @@ class _RepsDetailsState extends State<RepsDetails> {
 
             //******************************************************
 
-            getContent("City", widget.reps.city),
+            getContent(Utils.city_label, widget.reps.city),
 
             //*******************************************************
 
@@ -52,7 +53,7 @@ class _RepsDetailsState extends State<RepsDetails> {
 
             //******************************************************
 
-            getContent("Country", widget.reps.country),
+            getContent(Utils.country_label, widget.reps.country),
 
             //*******************************************************
 
@@ -61,13 +62,13 @@ class _RepsDetailsState extends State<RepsDetails> {
             //******************************************************
 
             ExpansionTile(
-              title: Text("Functional Areas",
-                  style: TextStyle(fontSize: 18, fontFamily: 'Zilla Slab')),
+              title: Text(Utils.functional_areas_label,
+                  style: TextStyle(fontSize: 18, fontFamily: Utils.zilla_slab)),
               children: widget.reps.functional_areas.map((function_area) {
                 return Card(
                   child: ListTile(
                     title: Text(function_area['name'],
-                        style: TextStyle(fontFamily: "Zilla Slab")),
+                        style: TextStyle(fontFamily: Utils.zilla_slab)),
                   ),
                 );
               }).toList(),
@@ -121,13 +122,13 @@ class _RepsDetailsState extends State<RepsDetails> {
   Text textContent(String string) {
     return Text(
       string,
-      style: TextStyle(fontSize: 18, fontFamily: 'Zilla Slab'),
+      style: TextStyle(fontSize: 18, fontFamily: Utils.zilla_slab),
     );
   }
 
   Text titleText(String title) {
     return Text(title,
-        style: TextStyle(fontSize: 14, fontFamily: 'Zilla Slab'));
+        style: TextStyle(fontSize: 14, fontFamily: Utils.zilla_slab));
   }
 
   @override
@@ -141,7 +142,7 @@ class _RepsDetailsState extends State<RepsDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Rep Details"),
+          title: Text(Utils.rep_details_page),
         ),
         body: bodyWidget(context)
         // bodyWidget(context),

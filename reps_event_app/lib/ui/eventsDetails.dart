@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reps_event_app/models/themeMode.dart';
+import 'package:reps_event_app/utils.dart';
 
 class EventsDetails extends StatefulWidget {
   final EventsModel events;
@@ -32,13 +33,8 @@ class _EventsDetailsState extends State<EventsDetails> {
                 ),
                 layers: [
                   new TileLayerOptions(
-                    urlTemplate: "https://api.tiles.mapbox.com/v4/"
-                        "{id}/{z}/{x}/{y}@2x.png?access_token=pk.eyJ1IjoiaGFyc2hpbDE3MTIiLCJhIjoiY2p5OXc3Z3JjMDgwejNubzZha3k4NXB3diJ9.ikSwHl-Zy36j034UFUNSIA",
-                    additionalOptions: {
-                      'accessToken':
-                          'pk.eyJ1IjoiaGFyc2hpbDE3MTIiLCJhIjoiY2p5OXc3Z3JjMDgwejNubzZha3k4NXB3diJ9.ikSwHl-Zy36j034UFUNSIA',
-                      'id': 'mapbox.streets',
-                    },
+                    urlTemplate: Utils.map_template,
+                    additionalOptions: Utils.map_additional_options,
                   ),
                   MarkerLayerOptions(
                     markers: [
@@ -48,7 +44,7 @@ class _EventsDetailsState extends State<EventsDetails> {
                         point: LatLng(widget.events.lat, widget.events.lon),
                         builder: (ctx) => Container(
                           child: SvgPicture.asset(
-                            'assets/img/map-marker.svg',
+                            Utils.map_marker,
                             height: 0.5,
                             width: 0.5,
                             color: Theme.of(context).primaryColor,
@@ -76,7 +72,7 @@ class _EventsDetailsState extends State<EventsDetails> {
                         ),
                         Text.rich(TextSpan(children: <TextSpan>[
                           TextSpan(
-                            text: 'Venue',
+                            text: Utils.venue_label,
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
                                 background: Paint()
@@ -86,7 +82,7 @@ class _EventsDetailsState extends State<EventsDetails> {
                                 fontSize: 18),
                           ),
                           TextSpan(
-                              text: " " + widget.events.venue,
+                              text: widget.events.venue,
                               style: TextStyle(fontSize: 18))
                         ])),
                         SizedBox(
@@ -97,7 +93,7 @@ class _EventsDetailsState extends State<EventsDetails> {
                           children: <Widget>[
                             Text.rich(TextSpan(children: <TextSpan>[
                               TextSpan(
-                                text: 'City',
+                                text: Utils.city_label,
                                 style: TextStyle(
                                     fontStyle: FontStyle.italic,
                                     background: Paint()
@@ -107,12 +103,12 @@ class _EventsDetailsState extends State<EventsDetails> {
                                     fontSize: 16),
                               ),
                               TextSpan(
-                                  text: " " + widget.events.city,
+                                  text: widget.events.city,
                                   style: TextStyle(fontSize: 16))
                             ])),
                             Text.rich(TextSpan(children: <TextSpan>[
                               TextSpan(
-                                text: 'Country',
+                                text: Utils.city_label,
                                 style: TextStyle(
                                     fontStyle: FontStyle.italic,
                                     background: Paint()
@@ -120,7 +116,7 @@ class _EventsDetailsState extends State<EventsDetails> {
                                           ? Theme.of(context).primaryColor
                                           : Colors.red[50]),
                               ),
-                              TextSpan(text: " " + widget.events.country)
+                              TextSpan(text:widget.events.country)
                             ])),
                           ],
                         ),
@@ -132,7 +128,7 @@ class _EventsDetailsState extends State<EventsDetails> {
                           children: <Widget>[
                             Text.rich(TextSpan(children: <TextSpan>[
                               TextSpan(
-                                text: 'Start Date',
+                                text: Utils.start_date_label,
                                 style: TextStyle(
                                     fontStyle: FontStyle.italic,
                                     background: Paint()
@@ -141,14 +137,13 @@ class _EventsDetailsState extends State<EventsDetails> {
                                           : Colors.red[50]),
                               ),
                               TextSpan(
-                                  text: " " +
-                                      widget.events.local_start
+                                  text: widget.events.local_start
                                           .toString()
                                           .substring(0, 10))
                             ])),
                             Text.rich(TextSpan(children: <TextSpan>[
                               TextSpan(
-                                text: 'End Date',
+                                text: Utils.end_date_label,
                                 style: TextStyle(
                                     fontStyle: FontStyle.italic,
                                     background: Paint()
@@ -157,8 +152,7 @@ class _EventsDetailsState extends State<EventsDetails> {
                                           : Colors.red[50]),
                               ),
                               TextSpan(
-                                  text: " " +
-                                      widget.events.end
+                                  text: widget.events.end
                                           .toString()
                                           .substring(0, 10))
                             ])),

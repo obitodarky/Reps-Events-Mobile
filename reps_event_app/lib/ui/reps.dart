@@ -4,6 +4,8 @@ import 'package:reps_event_app/models/reps_model.dart';
 import 'package:reps_event_app/api/reps_rep_api.dart';
 import 'package:reps_event_app/models/themeMode.dart';
 import 'package:reps_event_app/ui/customAppBar.dart';
+import 'package:reps_event_app/ui/repsDetails.dart';
+import 'package:reps_event_app/utils.dart';
 
 class Reps extends StatefulWidget {
   @override
@@ -41,7 +43,7 @@ class _RepsState extends State<Reps> {
       body: Column(
         children: <Widget>[
           CustomAppBar(
-            appBarTitle: "Reps",
+            appBarTitle: Utils.reps_page,
             widget: getSearchBar(),
           ),
           Expanded(child: getRepsList())
@@ -70,7 +72,7 @@ class _RepsState extends State<Reps> {
             return snapshot.data.isEmpty
                 ? Container(
                     child: Center(
-                      child: Image.asset('assets/img/no_results_found.gif'),
+                      child: Image.asset(Utils.no_results_gif),
                     ),
                   )
                 : ListView.builder(
@@ -86,7 +88,7 @@ class _RepsState extends State<Reps> {
             return Container(
               child: Center(
                 child: Image.asset(
-                  "assets/img/preloader.gif",
+                  Utils.loading_gif,
                 ),
               ),
             );
@@ -115,7 +117,7 @@ class _RepsState extends State<Reps> {
                             snapshot.data[index].avatar_url,
                           )),
                       onTap: () {
-                        Navigator.pushNamed(context, 'rep_details',
+                        Navigator.pushNamed(context, RepsDetails.route,
                             arguments: snapshot.data[index]);
                       },
                       title: Text(
@@ -123,10 +125,10 @@ class _RepsState extends State<Reps> {
                         maxLines: 5,
                         overflow: TextOverflow.ellipsis,
                         style:
-                            TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
+                            TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
                       ),
                       subtitle: Text(snapshot.data[index].country ?? "",
-                          style: TextStyle(fontFamily: 'Zilla Slab')),
+                          style: TextStyle(fontFamily: Utils.zilla_slab)),
                     )),
               )
             : Card(
@@ -139,17 +141,17 @@ class _RepsState extends State<Reps> {
                       snapshot.data[index].avatar_url,
                     )),
                 onTap: () {
-                  Navigator.pushNamed(context, 'rep_details',
+                  Navigator.pushNamed(context, RepsDetails.route,
                       arguments: snapshot.data[index]);
                 },
                 title: Text(
                   snapshot.data[index].fullname,
                   maxLines: 5,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
+                  style: TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
                 ),
                 subtitle: Text(snapshot.data[index].country ?? "",
-                    style: TextStyle(fontFamily: 'Zilla Slab')),
+                    style: TextStyle(fontFamily: Utils.zilla_slab)),
               ))
         : Container();
   }
@@ -190,8 +192,8 @@ class _RepsState extends State<Reps> {
               Icons.search,
               color: color,
             ),
-            hintText: "Search By Name",
-            hintStyle: TextStyle(color: Colors.grey, fontFamily: 'Zilla Slab'),
+            hintText: Utils.search_reps_label,
+            hintStyle: TextStyle(color: Colors.grey, fontFamily: Utils.zilla_slab),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: color, width: 0.0),
                 borderRadius: BorderRadius.all(Radius.circular(5))),
