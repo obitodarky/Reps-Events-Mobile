@@ -45,8 +45,7 @@ class _SplashScreenPageState extends State<SplashScreenPage>
   }
 
   navigationToHomePage() {
-    Navigator.pushReplacementNamed(
-        context, 'events_page');
+    Navigator.pushReplacementNamed(context, 'events_page');
   }
 
   @override

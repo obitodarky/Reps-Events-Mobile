@@ -1,9 +1,10 @@
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 import 'package:reps_event_app/models/events_model.dart';
 import 'package:reps_event_app/api/reps_event_api.dart';
+import 'package:reps_event_app/models/themeMode.dart';
 import 'package:reps_event_app/ui/customAppBar.dart';
-import 'package:reps_event_app/ui/eventsDetails.dart';
-import 'package:reps_event_app/ui/about.dart';
+import 'package:reps_event_app/utils.dart';
 
 class Events extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _EventsState extends State<Events> {
   TextEditingController _searchController = TextEditingController();
   String dateTime;
   Color color;
-
+  AppTheme appTheme;
 
   @override
   void initState() {
@@ -35,9 +36,11 @@ class _EventsState extends State<Events> {
 
   @override
   Widget build(BuildContext context) {
+    appTheme = Provider.of<AppTheme>(context);
     color = Theme.of(context).primaryColor;
     return Scaffold(
-      backgroundColor: Colors.white,
+      /*
+      backgroundColor: Colors.white,*/
       appBar: AppBar(
         // title: Text("Reps Events Mobile"),
         elevation: 0,
@@ -57,7 +60,20 @@ class _EventsState extends State<Events> {
               ),
             ),
             getList(listTitle: "About", nav: 'about_page'),
-            getList(listTitle: "People",nav: 'reps_page')
+            getList(listTitle: "People", nav: 'reps_page'),
+            ListTile(
+              title: Text("Dark Mode"),
+              trailing: Switch(
+                value: appTheme.getTheme(),
+                onChanged: (value) {
+                  Utils.sharedPreferences.setBool('darkTheme', value);
+                  appTheme.updateAppTheme(value);
+                },
+                activeColor: Theme.of(context).primaryColor,
+                inactiveThumbColor: Theme.of(context).primaryColor,
+                activeTrackColor: Colors.grey,
+              ),
+            )
           ],
         ),
       ),
@@ -128,28 +144,64 @@ class _EventsState extends State<Events> {
         });
   }
 
-   getEventTile(AsyncSnapshot<List<EventsModel>> snapshot, int index) {
-    return snapshot.data[index].city.contains(RegExp(_searchController.text,caseSensitive: false))? Card(
-        child: ListTile(
-      onTap: () {
-        Navigator.pushNamed(context, 'event_details_page',
-            arguments: snapshot.data[index]);
-      },
-      title: Text(
-        snapshot.data[index].name,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
-      ),
-      subtitle:
-          Text(snapshot.data[index].local_start.toString().substring(0, 10)),
-      trailing: IconButton(
-          icon: Icon(Icons.info),
-          onPressed: () {
-            getDialogForDescription(
-                snapshot.data[index].name, snapshot.data[index].description);
-          }),
-    )):Container();
+  getEventTile(AsyncSnapshot<List<EventsModel>> snapshot, int index) {
+    return snapshot.data[index].city
+            .contains(RegExp(_searchController.text, caseSensitive: false))
+        ? appTheme.getTheme()
+            ? Container(
+                child: Card(
+                    color: Color(0xFF30302f),
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, 'event_details_page',
+                            arguments: snapshot.data[index]);
+                      },
+                      title: Text(
+                        snapshot.data[index].name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style:
+                            TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
+                      ),
+                      subtitle: Text(snapshot.data[index].local_start
+                          .toString()
+                          .substring(0, 10)),
+                      trailing: IconButton(
+                          icon: Icon(Icons.info),
+                          onPressed: () {
+                            getDialogForDescription(snapshot.data[index].name,
+                                snapshot.data[index].description);
+                          }),
+                    )),
+                decoration: BoxDecoration(boxShadow: [
+                  BoxShadow(
+                    color: Color(0xFF212121),
+                  )
+                ]),
+              )
+            : Card(
+                child: ListTile(
+                onTap: () {
+                  Navigator.pushNamed(context, 'event_details_page',
+                      arguments: snapshot.data[index]);
+                },
+                title: Text(
+                  snapshot.data[index].name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontFamily: 'Zilla Slab', fontSize: 18.0),
+                ),
+                subtitle: Text(snapshot.data[index].local_start
+                    .toString()
+                    .substring(0, 10)),
+                trailing: IconButton(
+                    icon: Icon(Icons.info),
+                    onPressed: () {
+                      getDialogForDescription(snapshot.data[index].name,
+                          snapshot.data[index].description);
+                    }),
+              ))
+        : Container();
   }
 
   getDialogForDescription(String eventName, String description) {
@@ -190,10 +242,10 @@ class _EventsState extends State<Events> {
             hintText: "Search By City",
             hintStyle: TextStyle(color: Colors.grey, fontFamily: 'Zilla Slab'),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color:color, width: 0.0),
+                borderSide: BorderSide(color: color, width: 0.0),
                 borderRadius: BorderRadius.all(Radius.circular(5))),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color:color, width: 0.0),
+                borderSide: BorderSide(color: color, width: 0.0),
                 borderRadius: BorderRadius.all(Radius.circular(5))),
             border: OutlineInputBorder(),
           ),
