@@ -30,6 +30,7 @@ dependencies:
   font_awesome_flutter:
   url_launcher:
   shared_preferences:
+  html_unescape:
 
 dev_dependencies:
   flutter_test:
