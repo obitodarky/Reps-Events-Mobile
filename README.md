@@ -8,25 +8,30 @@
   </a>
 </p>
 <h1 align="center">
- Mozilla Reps App Starter Guide
+ Reps Events Mobile
 </h1>
 
-Here is the Startup Guide for the  Mozilla Reps App. This starter will help to install  the main flutter configuration files along with the brief introduction to Mozilla Reps mobile application.
 
 ## 📝 Description
 
-    reps.mozilla.org data on mobile
+   reps.mozilla.org data on mobile
 
-## 🚀 Quick start
+## 🚀 Installation Guide
 
 1.  **Install Flutter on your machine**
 
 
-    install flutter by selecting the operating system on which you are installing Flutter:
+    Install flutter by selecting the operating system on which you are installing Flutter:
   
     [Flutter installation tutorial](https://flutter.dev/docs/get-started/install)
 
+    To check if you have flutter installed along wtih proper necesarry SDKs installed 
+    run `flutter doctor`
     
+ 2. **Clone the Repo**    
 
-      
+    To clone this repository, run `git clone https://github.com/obitodarky/Reps-Events-Mobile.git` 
+    Then run `cd Reps-Events-Mobile`
+        
+    
 
