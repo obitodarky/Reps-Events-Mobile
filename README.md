@@ -14,7 +14,7 @@
 
 ## 📝 Description
 
-   reps.mozilla.org data on mobile
+   [Mozilla Reps](https://reps.mozilla.org/) Events and Reps data on mobile.
 
 ## 🚀 Installation Guide
 
