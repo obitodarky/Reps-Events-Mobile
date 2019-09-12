@@ -34,7 +34,7 @@
     Then run `cd Reps-Events-Mobile`
     
  3. **Get Packages**
-    
+    Make sure you are in the `Reps-Events-Mobile/reps_events_app` directory
     - From the terminal: Run `flutter pub get`.
         
         *OR*
@@ -43,9 +43,7 @@
 
  4. **Test the App**
  
-    Make sure you are in the `Reps-Events-Mobile` directory.
-    
-    Run `cd reps_events_app`
+    Make sure you are in the `Reps-Events-Mobile/reps_events_app` directory.
     #### Run the App
     On terminal: 
     - Check that an Android device is running by running `flutter devices`. If none are shown, follow the device-specific instructions on the [Install](https://flutter.dev/docs/get-started/install) page for your OS.
