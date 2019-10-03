@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import 'package:reps_event_app/models/events_model.dart';
@@ -61,7 +62,9 @@ class _EventsState extends State<Events> {
               ),
             ),
             getList(listTitle: Utils.about_page, nav: Utils.about_page_route),
-            getList(listTitle: Utils.drawer_people_item, nav: Utils.reps_page_route),
+            getList(
+                listTitle: Utils.drawer_people_item,
+                nav: Utils.reps_page_route),
             ListTile(
               title: Text(Utils.dark_mode_option),
               trailing: Switch(
@@ -136,8 +139,11 @@ class _EventsState extends State<Events> {
           } else {
             return Container(
               child: Center(
-                child: Image.asset(
-                  Utils.loading_gif
+                child: FlareActor(
+                  Utils.loading_animation,
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+                  animation: "loading",
                 ),
               ),
             );
@@ -161,8 +167,8 @@ class _EventsState extends State<Events> {
                         snapshot.data[index].name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style:
-                            TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
+                        style: TextStyle(
+                            fontFamily: Utils.zilla_slab, fontSize: 18.0),
                       ),
                       subtitle: Text(snapshot.data[index].local_start
                           .toString()
@@ -190,7 +196,8 @@ class _EventsState extends State<Events> {
                   snapshot.data[index].name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
+                  style:
+                      TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
                 ),
                 subtitle: Text(snapshot.data[index].local_start
                     .toString()
@@ -241,7 +248,8 @@ class _EventsState extends State<Events> {
               color: color,
             ),
             hintText: Utils.search_events_label,
-            hintStyle: TextStyle(color: Colors.grey, fontFamily:Utils.zilla_slab),
+            hintStyle:
+                TextStyle(color: Colors.grey, fontFamily: Utils.zilla_slab),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: color, width: 0.0),
                 borderRadius: BorderRadius.all(Radius.circular(5))),

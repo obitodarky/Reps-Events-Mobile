@@ -51,7 +51,7 @@ class Utils {
   //images
   static const no_results_gif = "assets/img/no_results_found.gif";
   static const map_marker = 'assets/img/map-marker.svg';
-  static const loading_gif = "assets/img/preloader.gif";
+  static const loading_animation = "assets/img/loading_animation.flr";
   static const reps_mozilla_logo = 'assets/img/reps_logo.svg';
   static const reps_logo = 'assets/img/reps.jpg';
 
