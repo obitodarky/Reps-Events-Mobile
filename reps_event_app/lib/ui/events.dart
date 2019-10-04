@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:reps_event_app/models/events_model.dart';
 import 'package:reps_event_app/api/reps_event_api.dart';
 import 'package:reps_event_app/models/themeMode.dart';
+import 'package:reps_event_app/ui/about.dart';
 import 'package:reps_event_app/ui/customAppBar.dart';
 import 'package:reps_event_app/ui/eventsDetails.dart';
+import 'package:reps_event_app/ui/reps.dart';
 import 'package:reps_event_app/utils.dart';
 
 class Events extends StatefulWidget {
@@ -39,53 +41,55 @@ class _EventsState extends State<Events> {
   Widget build(BuildContext context) {
     appTheme = Provider.of<AppTheme>(context);
     color = Theme.of(context).primaryColor;
-    return Scaffold(
-      /*
-      backgroundColor: Colors.white,*/
-      appBar: AppBar(
-        // title: Text("Reps Events Mobile"),
-        elevation: 0,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.all(5.0),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        /*
+        backgroundColor: Colors.white,*/
+        appBar: AppBar(
+          title: Text("Reps Events Mobile",
+              style: TextStyle(fontFamily: "Zilla Slab", fontSize: 25.0)),
+          elevation: 0,
+          actions: <Widget>[
+            IconButton(icon: Icon(IconData(0xe900, fontFamily: "Moon")), onPressed: (){
+              bool value = Utils.sharedPreferences.getBool(Utils.darkThemePref)??false;
+              Utils.sharedPreferences.setBool(Utils.darkThemePref, !value);
+              appTheme.updateAppTheme(!value);
+            },)
+          ],
+          bottom: TabBar(
+            indicatorColor: Colors.white,
+            tabs: <Widget>[
+              Tab(
+                child: Text("Events",
+                    style: TextStyle(fontSize: 20.0, fontFamily: "Zilla Slab")),
+              ),
+              Tab(
+                child: Text("People",
+                    style: TextStyle(fontSize: 20.0, fontFamily: "Zilla Slab")),
+              ),
+              Tab(
+                child: Text("About",
+                    style: TextStyle(fontSize: 20.0, fontFamily: "Zilla Slab")),
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
           children: <Widget>[
-            DrawerHeader(
-              child: Container(
-                alignment: Alignment.topLeft,
-                child: Image.asset(
-                  Utils.reps_logo,
-                  width: 80,
-                  height: 80,
+            Column(
+              children: <Widget>[
+                CustomAppBar(
+                  appBarTitle: Utils.events_page,
+                  widget: getSearchBar(),
                 ),
-              ),
+                Expanded(child: getEventsList())
+              ],
             ),
-            getList(listTitle: Utils.about_page, nav: Utils.about_page_route),
-            getList(listTitle: Utils.drawer_people_item, nav: Utils.reps_page_route),
-            ListTile(
-              title: Text(Utils.dark_mode_option),
-              trailing: Switch(
-                value: appTheme.getTheme(),
-                onChanged: (value) {
-                  Utils.sharedPreferences.setBool(Utils.darkThemePref, value);
-                  appTheme.updateAppTheme(value);
-                },
-                activeColor: Theme.of(context).primaryColor,
-                inactiveThumbColor: Theme.of(context).primaryColor,
-                activeTrackColor: Colors.grey,
-              ),
-            )
+            Reps(),
+            About(),
           ],
         ),
-      ),
-      body: Column(
-        children: <Widget>[
-          CustomAppBar(
-            appBarTitle: Utils.events_page,
-            widget: getSearchBar(),
-          ),
-          Expanded(child: getEventsList())
-        ],
       ),
     );
   }
@@ -136,9 +140,7 @@ class _EventsState extends State<Events> {
           } else {
             return Container(
               child: Center(
-                child: Image.asset(
-                  Utils.loading_gif
-                ),
+                child: Image.asset(Utils.loading_gif),
               ),
             );
           }
@@ -161,8 +163,8 @@ class _EventsState extends State<Events> {
                         snapshot.data[index].name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style:
-                            TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
+                        style: TextStyle(
+                            fontFamily: Utils.zilla_slab, fontSize: 18.0),
                       ),
                       subtitle: Text(snapshot.data[index].local_start
                           .toString()
@@ -190,7 +192,8 @@ class _EventsState extends State<Events> {
                   snapshot.data[index].name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
+                  style:
+                      TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
                 ),
                 subtitle: Text(snapshot.data[index].local_start
                     .toString()
@@ -241,7 +244,8 @@ class _EventsState extends State<Events> {
               color: color,
             ),
             hintText: Utils.search_events_label,
-            hintStyle: TextStyle(color: Colors.grey, fontFamily:Utils.zilla_slab),
+            hintStyle:
+                TextStyle(color: Colors.grey, fontFamily: Utils.zilla_slab),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: color, width: 0.0),
                 borderRadius: BorderRadius.all(Radius.circular(5))),

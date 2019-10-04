@@ -13,16 +13,13 @@ class _AboutState extends State<About> {
 
   @override
   Widget build(BuildContext context) {
-    appBarSize = MediaQuery.of(context).size.height / 6.5;
+    appBarSize = MediaQuery.of(context).size.height / 3.5;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-      ),
       body: Column(
         children: <Widget>[
-          CustomAppBar(appBarTitle: Utils.about_page, appBarSize: appBarSize),
+          CustomAppBar(appBarTitle: Utils.about_page, appBarSize: appBarSize,),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(top:20.0, bottom: 16.0, left: 16.0, right: 16.0),
             child: Text(
               Utils.about_info,
               style: TextStyle(
