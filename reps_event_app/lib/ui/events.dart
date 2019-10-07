@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import 'package:reps_event_app/models/events_model.dart';
@@ -140,7 +141,12 @@ class _EventsState extends State<Events> {
           } else {
             return Container(
               child: Center(
-                child: Image.asset(Utils.loading_gif),
+                child: FlareActor(
+                  Utils.loading_animation,
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+                  animation: "loading",
+                ),
               ),
             );
           }

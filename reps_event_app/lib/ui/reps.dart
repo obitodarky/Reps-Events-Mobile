@@ -6,6 +6,7 @@ import 'package:reps_event_app/models/themeMode.dart';
 import 'package:reps_event_app/ui/customAppBar.dart';
 import 'package:reps_event_app/ui/repsDetails.dart';
 import 'package:reps_event_app/utils.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 class Reps extends StatefulWidget {
   @override
@@ -84,8 +85,11 @@ class _RepsState extends State<Reps> {
           } else {
             return Container(
               child: Center(
-                child: Image.asset(
-                  Utils.loading_gif,
+                child: FlareActor(
+                  Utils.loading_animation,
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+                  animation: "loading",
                 ),
               ),
             );
@@ -121,8 +125,8 @@ class _RepsState extends State<Reps> {
                         snapshot.data[index].fullname,
                         maxLines: 5,
                         overflow: TextOverflow.ellipsis,
-                        style:
-                            TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
+                        style: TextStyle(
+                            fontFamily: Utils.zilla_slab, fontSize: 18.0),
                       ),
                       subtitle: Text(snapshot.data[index].country ?? "",
                           style: TextStyle(fontFamily: Utils.zilla_slab)),
@@ -145,7 +149,8 @@ class _RepsState extends State<Reps> {
                   snapshot.data[index].fullname,
                   maxLines: 5,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
+                  style:
+                      TextStyle(fontFamily: Utils.zilla_slab, fontSize: 18.0),
                 ),
                 subtitle: Text(snapshot.data[index].country ?? "",
                     style: TextStyle(fontFamily: Utils.zilla_slab)),
@@ -190,7 +195,8 @@ class _RepsState extends State<Reps> {
               color: color,
             ),
             hintText: Utils.search_reps_label,
-            hintStyle: TextStyle(color: Colors.grey, fontFamily: Utils.zilla_slab),
+            hintStyle:
+                TextStyle(color: Colors.grey, fontFamily: Utils.zilla_slab),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: color, width: 0.0),
                 borderRadius: BorderRadius.all(Radius.circular(5))),
