@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import 'package:reps_event_app/models/reps_model.dart';
@@ -115,11 +116,16 @@ class _RepsState extends State<Reps> {
                     child: ListTile(
                       contentPadding: EdgeInsets.all(8.0),
                       leading: ClipRRect(
-                          clipBehavior: Clip.antiAlias,
-                          borderRadius: BorderRadius.circular(50.0),
-                          child: Image.network(
-                            snapshot.data[index].avatar_url,
-                          )),
+                        clipBehavior: Clip.antiAlias,
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: CachedNetworkImage(
+                          imageUrl: snapshot.data[index].avatar_url,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ),
+                      ),
                       onTap: () {
                         Navigator.pushNamed(context, RepsDetails.route,
                             arguments: snapshot.data[index]);
@@ -139,11 +145,14 @@ class _RepsState extends State<Reps> {
                 child: ListTile(
                 contentPadding: EdgeInsets.all(8.0),
                 leading: ClipRRect(
-                    clipBehavior: Clip.antiAlias,
-                    borderRadius: BorderRadius.circular(50.0),
-                    child: Image.network(
-                      snapshot.data[index].avatar_url,
-                    )),
+                  clipBehavior: Clip.antiAlias,
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: CachedNetworkImage(
+                    imageUrl: snapshot.data[index].avatar_url,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                ),
                 onTap: () {
                   Navigator.pushNamed(context, RepsDetails.route,
                       arguments: snapshot.data[index]);

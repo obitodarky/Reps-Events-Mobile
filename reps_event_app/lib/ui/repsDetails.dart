@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import "package:flutter/material.dart";
 import 'package:reps_event_app/models/reps_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,9 +26,14 @@ class _RepsDetailsState extends State<RepsDetails> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 ClipRRect(
-                    clipBehavior: Clip.antiAlias,
-                    borderRadius: BorderRadius.circular(80.0),
-                    child: Image.network(widget.reps.avatar_url, scale: 0.6)),
+                  clipBehavior: Clip.antiAlias,
+                  borderRadius: BorderRadius.circular(80.0),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.reps.avatar_url,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                ),
                 SizedBox(height: 8),
                 titleText(widget.reps.display_name)
               ],
