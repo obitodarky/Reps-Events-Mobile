@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:reps_event_app/models/themeMode.dart';
 import 'package:reps_event_app/ui/about.dart';
@@ -10,8 +11,7 @@ import 'package:reps_event_app/ui/splashScreen.dart';
 import 'package:reps_event_app/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> main()async{
-
+Future<void> main() async {
   Utils.sharedPreferences = await SharedPreferences.getInstance();
   runApp(MyApp());
 }
@@ -25,9 +25,10 @@ class _MyAppState extends State<MyApp> {
   bool darkTheme;
   @override
   void initState() {
-    darkTheme = Utils.sharedPreferences.getBool(Utils.darkThemePref)??false;
+    darkTheme = Utils.sharedPreferences.getBool(Utils.darkThemePref) ?? false;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AppTheme>(
@@ -41,6 +42,10 @@ class RepsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppTheme appTheme = Provider.of<AppTheme>(context);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       routes: {
         Utils.events_page_route: (context) => Events(),
