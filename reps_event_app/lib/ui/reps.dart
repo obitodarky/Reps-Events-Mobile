@@ -38,9 +38,6 @@ class _RepsState extends State<Reps> {
   Widget build(BuildContext context) {
     appTheme = Provider.of<AppTheme>(context);
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-      ),
       body: Column(
         children: <Widget>[
           CustomAppBar(

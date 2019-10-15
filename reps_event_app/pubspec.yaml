@@ -84,6 +84,9 @@ flutter:
           weight: 600
         - asset: assets/fonts/ZillaSlab-Bold.ttf
           weight: 700
+    - family: Moon
+      fonts:
+        - asset: assets/fonts/moon.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
