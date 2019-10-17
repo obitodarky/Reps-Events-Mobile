@@ -10,12 +10,12 @@ class About extends StatefulWidget {
 class _AboutState extends State<About> {
   String dateTime;
   double appBarSize;
-  double kFontSize;
+  double kFontSize; //kFontSize is used to the set the fontSize based on the textScaleFactor.
 
   @override
   Widget build(BuildContext context) {
     appBarSize = MediaQuery.of(context).size.height / 3.5;
-    kFontSize = MediaQuery.of(context).size.longestSide / 27;
+    kFontSize = MediaQuery.of(context).textScaleFactor * 28.0;
     if (FocusScope.of(context).hasFocus) {
       FocusScope.of(context).unfocus();
     }
