@@ -7,6 +7,7 @@ import 'package:reps_event_app/ui/customAppBar.dart';
 import 'package:reps_event_app/ui/repsDetails.dart';
 import 'package:reps_event_app/utils.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'lazy_image.dart';
 
 class Reps extends StatefulWidget {
   @override
@@ -112,11 +113,12 @@ class _RepsState extends State<Reps> {
                     child: ListTile(
                       contentPadding: EdgeInsets.all(8.0),
                       leading: ClipRRect(
-                          clipBehavior: Clip.antiAlias,
-                          borderRadius: BorderRadius.circular(50.0),
-                          child: Image.network(
-                            snapshot.data[index].avatar_url,
-                          )),
+                        clipBehavior: Clip.antiAlias,
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: LazyImage(
+                          imageUrl: snapshot.data[index].avatar_url,
+                        ),
+                      ),
                       onTap: () {
                         Navigator.pushNamed(context, RepsDetails.route,
                             arguments: snapshot.data[index]);
@@ -136,11 +138,12 @@ class _RepsState extends State<Reps> {
                 child: ListTile(
                 contentPadding: EdgeInsets.all(8.0),
                 leading: ClipRRect(
-                    clipBehavior: Clip.antiAlias,
-                    borderRadius: BorderRadius.circular(50.0),
-                    child: Image.network(
-                      snapshot.data[index].avatar_url,
-                    )),
+                  clipBehavior: Clip.antiAlias,
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: LazyImage(
+                    imageUrl: snapshot.data[index].avatar_url,
+                  ),
+                ),
                 onTap: () {
                   Navigator.pushNamed(context, RepsDetails.route,
                       arguments: snapshot.data[index]);
