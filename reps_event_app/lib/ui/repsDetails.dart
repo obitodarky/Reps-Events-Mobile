@@ -3,6 +3,7 @@ import 'package:reps_event_app/models/reps_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reps_event_app/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'lazy_image.dart';
 
 class RepsDetails extends StatefulWidget {
   final RepsModel reps;
@@ -25,9 +26,12 @@ class _RepsDetailsState extends State<RepsDetails> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 ClipRRect(
-                    clipBehavior: Clip.antiAlias,
-                    borderRadius: BorderRadius.circular(80.0),
-                    child: Image.network(widget.reps.avatar_url, scale: 0.6)),
+                  clipBehavior: Clip.antiAlias,
+                  borderRadius: BorderRadius.circular(80.0),
+                  child: LazyImage(
+                    imageUrl: widget.reps.avatar_url,
+                  ),
+                ),
                 SizedBox(height: 8),
                 titleText(widget.reps.display_name)
               ],
