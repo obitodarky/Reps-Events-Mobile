@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Reps-Events-Mobile.iml" filepath="$PROJECT_DIR$/.idea/Reps-Events-Mobile.iml" />
       <module fileurl="file://$PROJECT_DIR$/reps_event_app/android/app/src/debug/debug.iml" filepath="$PROJECT_DIR$/reps_event_app/android/app/src/debug/debug.iml" />
       <module fileurl="file://$PROJECT_DIR$/reps_event_app/android/app/src/main/main.iml" filepath="$PROJECT_DIR$/reps_event_app/android/app/src/main/main.iml" />
       <module fileurl="file://$PROJECT_DIR$/reps_event_app/android/app/src/profile/profile.iml" filepath="$PROJECT_DIR$/reps_event_app/android/app/src/profile/profile.iml" />
