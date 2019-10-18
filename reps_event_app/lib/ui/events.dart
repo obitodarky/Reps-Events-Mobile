@@ -61,7 +61,7 @@ class _EventsState extends State<Events> {
           bottom: TabBar(
             indicatorColor: Colors.white,
             onTap: (kTabLabel) {
-              if (kTabLabel == 2 && FocusScope.of(context).hasFocus) {
+              if (FocusScope.of(context).hasFocus) {
                 FocusScope.of(context).unfocus();
               }
             },
