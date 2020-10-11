@@ -58,7 +58,7 @@ Feel free to use the app in whatever way possible and make sure to send us feedb
 
 ## 🌟 Contributing
 
-   We are open to suggestions, bug-reporting and features! We would love to see you contribute but make sure you follow our [Contributing Guidelines]().
+   We are open to suggestions, bug-reporting and features! We would love to see you contribute but make sure you follow our [Contributing Guidelines](https://github.com/obitodarky/Reps-Events-Mobile/blob/dev/CONTRIBUTING.MD).
     
     
     
